@@ -14,6 +14,7 @@ namespace XboxControllerRemote
         delegate void detectInputDelegate();
 
         private XInputState prevState;
+        private System.Timers.Timer timer;
 
         public MainForm()
         {
@@ -21,7 +22,7 @@ namespace XboxControllerRemote
 
             this.Cursor = new Cursor(Cursor.Current.Handle);
 
-            System.Timers.Timer timer = new System.Timers.Timer(10);
+            timer = new System.Timers.Timer(10);
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
             timer.Start();
         }
