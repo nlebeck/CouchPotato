@@ -41,16 +41,16 @@ namespace XboxControllerRemote
 
             this.Cursor = new Cursor(Cursor.Current.Handle);
 
-            timer = new System.Timers.Timer(POLLING_INTERVAL_MS);
-            timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
-            timer.Start();
-
             Width = (int)(HRES * KEYBOARD_WIDTH_SCALE);
             Height = (int)(Width / KEYBOARD_ASPECT_RATIO);
 
             keyboard = new Keyboard(Width, Height);
 
             buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
+
+            timer = new System.Timers.Timer(POLLING_INTERVAL_MS);
+            timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
+            timer.Start();
         }
 
         private bool ButtonPressed(XInputState state, XInputState prevState, ushort buttonMask)
@@ -68,6 +68,8 @@ namespace XboxControllerRemote
                 keyboard.DrawKeyboard(buffer.Graphics);
                 buffer.Render(formGraphics);
                 formGraphics.Dispose();
+
+                string keyToSend = null;
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
@@ -93,9 +95,40 @@ namespace XboxControllerRemote
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
                 {
+                    keyToSend = keyboard.GetSelectedKey();
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_B))
+                {
+                    keyToSend = "{BACKSPACE}";
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_RIGHT_SHOULDER))
+                {
+                    if (keyboard.CurrentKeySet() == Keyboard.KeySet.Uppercase)
+                    {
+                        keyboard.SwitchKeySet(Keyboard.KeySet.Lowercase);
+                    }
+                    else
+                    {
+                        keyboard.SwitchKeySet(Keyboard.KeySet.Uppercase);
+                    }
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_LEFT_SHOULDER))
+                {
+                    if (keyboard.CurrentKeySet() == Keyboard.KeySet.Symbols)
+                    {
+                        keyboard.SwitchKeySet(Keyboard.KeySet.Lowercase);
+                    }
+                    else
+                    {
+                        keyboard.SwitchKeySet(Keyboard.KeySet.Symbols);
+                    }
+                }
+
+                if (keyToSend != null)
+                {
                     SetForegroundWindow(browserProcess.MainWindowHandle);
                     Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
-                    SendKeys.Send(keyboard.GetSelectedKey());
+                    SendKeys.Send(keyToSend);
                     Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
                     SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
                 }
