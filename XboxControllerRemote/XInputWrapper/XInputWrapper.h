@@ -2,13 +2,35 @@
 
 #pragma once
 
+#include <WinUser.h>
+#include <Xinput.h>
+
 using namespace System;
 
 namespace XInputWrapper {
 
-	extern const short _LEFT_THUMB_DEADZONE;
-	extern const short _RIGHT_THUMB_DEADZONE;
-	extern const short _TRIGGER_THRESHOLD;
+	public value class XInputConstants
+	{
+	public:
+		static const short GAMEPAD_LEFT_THUMB_DEADZONE = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+		static const short GAMEPAD_RIGHT_THUMB_DEADZONE = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
+		static const short GAMEPAD_TRIGGER_THRESHOLD = XINPUT_GAMEPAD_TRIGGER_THRESHOLD;
+
+		static const unsigned short GAMEPAD_DPAD_UP = 0x0001;
+		static const unsigned short GAMEPAD_DPAD_DOWN = 0x0002;
+		static const unsigned short GAMEPAD_DPAD_LEFT = 0x0004;
+		static const unsigned short GAMEPAD_DPAD_RIGHT = 0x0008;
+		static const unsigned short GAMEPAD_START = 0x0010;
+		static const unsigned short GAMEPAD_BACK = 0x0020;
+		static const unsigned short GAMEPAD_LEFT_THUMB = 0x0040;
+		static const unsigned short GAMEPAD_RIGHT_THUMB = 0x0080;
+		static const unsigned short GAMEPAD_LEFT_SHOULDER = 0x0100;
+		static const unsigned short GAMEPAD_RIGHT_SHOULDER = 0x0200;
+		static const unsigned short GAMEPAD_A = 0x1000;
+		static const unsigned short GAMEPAD_B = 0x2000;
+		static const unsigned short GAMEPAD_X = 0x4000;
+		static const unsigned short GAMEPAD_Y = 0x8000;
+	};
 
 	public value class XInputGamepad
 	{
@@ -29,9 +51,14 @@ namespace XInputWrapper {
 		XInputGamepad Gamepad;
 
 		static XInputState XInputGetStateWrapper(DWORD dwUserIndex);
+	};
 
-		static const short LEFT_THUMB_DEADZONE = _LEFT_THUMB_DEADZONE;
-		static const short RIGHT_THUMB_DEADZONE = _RIGHT_THUMB_DEADZONE;
-		static const short TRIGGER_THRESHOLD = _TRIGGER_THRESHOLD;
+	public value class MouseEventWrapper
+	{
+	public:
+		static const DWORD MOUSEEVENTTF_LEFTDOWN = 0x0002;
+		static const DWORD MOUSEEVENTTF_LEFTUP = 0x0004;
+
+		static void MouseEvent(DWORD dwFlags, DWORD dx, DWORD dy, DWORD dwData, ULONG_PTR dwExtraInfo);
 	};
 }

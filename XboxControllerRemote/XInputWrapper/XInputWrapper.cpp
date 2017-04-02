@@ -4,13 +4,10 @@
 
 #include "XInputWrapper.h"
 
+#pragma comment(lib, "User32.lib")
 #pragma comment(lib, "Xinput.lib")
 
 namespace XInputWrapper {
-
-	const short _LEFT_THUMB_DEADZONE = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
-	const short _RIGHT_THUMB_DEADZONE = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-	const short _TRIGGER_THRESHOLD = XINPUT_GAMEPAD_TRIGGER_THRESHOLD;
 
 	XInputState XInputState::XInputGetStateWrapper(DWORD dwUserIndex) {
 		XINPUT_STATE state;
@@ -26,4 +23,9 @@ namespace XInputWrapper {
 		result.Gamepad.wButtons = state.Gamepad.wButtons;
 		return result;
 	}
+
+	void MouseEventWrapper::MouseEvent(DWORD dwFlags, DWORD dx, DWORD dy, DWORD dwData, ULONG_PTR dwExtraInfo) {
+		mouse_event(dwFlags, dx, dy, dwData, dwExtraInfo);
+	}
+
 }
