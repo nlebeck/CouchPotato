@@ -14,8 +14,9 @@ namespace XboxControllerRemote
         private const string BROWSER_FILE_NAME = "IExplore.exe";
         private const string NETFLIX_URL = "https://www.netflix.com";
 
-        private const int BUTTON_PRESS_SLEEP_MS = 100;
+        private const int BUTTON_PRESS_SLEEP_MS = 50;
         private const int POLLING_INTERVAL_MS = 10;
+        private const int KEYBOARD_POLLING_INTERVAL_MS = 50;
 
         private const int HRES = 1920;
         private const double KEYBOARD_WIDTH_SCALE = 0.5;
@@ -29,6 +30,7 @@ namespace XboxControllerRemote
         private XInputState prevState;
         private System.Timers.Timer timer;
         private Process browserProcess = null;
+        private BufferedGraphics buffer;
         private Keyboard keyboard;
 
         private bool inKeyboardMode = false;
@@ -47,6 +49,8 @@ namespace XboxControllerRemote
             Height = (int)(Width / KEYBOARD_ASPECT_RATIO);
 
             keyboard = new Keyboard(Width, Height);
+
+            buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
         }
 
         private bool ButtonPressed(XInputState state, XInputState prevState, ushort buttonMask)
@@ -61,12 +65,14 @@ namespace XboxControllerRemote
             if (inKeyboardMode)
             {
                 Graphics formGraphics = CreateGraphics();
-                keyboard.DrawKeyboard(formGraphics);
+                keyboard.DrawKeyboard(buffer.Graphics);
+                buffer.Render(formGraphics);
                 formGraphics.Dispose();
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
                     inKeyboardMode = false;
+                    timer.Interval = POLLING_INTERVAL_MS;
                     SetForegroundWindow(browserProcess.MainWindowHandle);
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_LEFT))
@@ -123,6 +129,7 @@ namespace XboxControllerRemote
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
                     inKeyboardMode = true;
+                    timer.Interval = KEYBOARD_POLLING_INTERVAL_MS;
                     SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
                 }
             }

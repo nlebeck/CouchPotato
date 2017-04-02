@@ -121,8 +121,6 @@ namespace XboxControllerRemote
                     break;
             }
 
-            Debug.WriteLine("Moving: {0}, {1}", modifiedCol, modifiedRow);
-
             if (modifiedRow < 0)
             {
                 modifiedRow = 0;
@@ -142,8 +140,6 @@ namespace XboxControllerRemote
 
             selectedCol = modifiedCol;
             selectedRow = modifiedRow;
-
-            Debug.WriteLine("After: {0}, {1}", selectedCol, selectedRow);
         }
 
         public string GetSelectedKey()
