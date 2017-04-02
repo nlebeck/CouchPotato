@@ -11,10 +11,17 @@ namespace XboxControllerRemote
 {
     public partial class MainForm : Form
     {
+        private const string browserFileName = "IExplore.exe";
+        private const string netflixURL = "https://www.netflix.com";
+
+        [DllImport("User32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hwnd);
+
         delegate void detectInputDelegate();
 
         private XInputState prevState;
         private System.Timers.Timer timer;
+        private Process browserProcess = null;
 
         public MainForm()
         {
@@ -52,6 +59,22 @@ namespace XboxControllerRemote
             {
                 MouseEventWrapper.MouseEvent(MouseEventWrapper.MOUSEEVENTTF_LEFTDOWN, 0, 0, 0, 0);
                 MouseEventWrapper.MouseEvent(MouseEventWrapper.MOUSEEVENTTF_LEFTUP, 0, 0, 0, 0);
+            }
+
+            if (buttonPressed(state, prevState, XInputConstants.GAMEPAD_START))
+            {
+                if (browserProcess == null)
+                {
+                    browserProcess = Process.Start(browserFileName, netflixURL);
+                }
+            }
+
+            if (buttonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
+            {
+                if (browserProcess != null)
+                {
+                    bool result = SetForegroundWindow(browserProcess.MainWindowHandle);
+                }
             }
 
             prevState = state;
