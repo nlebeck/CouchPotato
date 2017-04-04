@@ -142,14 +142,7 @@ namespace XboxControllerRemote
             {
                 int offsetX = 0;
                 int offsetY = 0;
-                if (Math.Abs((int)state.Gamepad.sThumbLX) > XInputConstants.GAMEPAD_LEFT_THUMB_DEADZONE)
-                {
-                    offsetX = (int)(state.Gamepad.sThumbLX / 32767.0 * 25.0);
-                }
-                if (Math.Abs((int)state.Gamepad.sThumbLY) > XInputConstants.GAMEPAD_LEFT_THUMB_DEADZONE)
-                {
-                    offsetY = (int)(state.Gamepad.sThumbLY / 32767.0 * 25.0);
-                }
+                GetMouseOffsets(state.Gamepad.sThumbLX, state.Gamepad.sThumbLY, out offsetX, out offsetY);
                 Cursor.Position = new Point(Cursor.Position.X + offsetX, Cursor.Position.Y - offsetY);
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
@@ -184,6 +177,27 @@ namespace XboxControllerRemote
             }
 
             prevState = state;
+        }
+
+        public void GetMouseOffsets(short rawThumbX, short rawThumbY, out int offsetX, out int offsetY)
+        {
+            double scaledThumbX = rawThumbX / 32767.0;
+            double scaledThumbY = rawThumbY / 32767.0;
+
+            if (Math.Abs((int)rawThumbX) <= XInputConstants.GAMEPAD_LEFT_THUMB_DEADZONE)
+            {
+                scaledThumbX = 0.0;
+            }
+            if (Math.Abs((int)rawThumbY) <= XInputConstants.GAMEPAD_LEFT_THUMB_DEADZONE)
+            {
+                scaledThumbY = 0.0;
+            }
+
+            double scaledMagnitude = Math.Sqrt(Math.Pow(scaledThumbX, 2) + Math.Pow(scaledThumbY, 2));
+            double multiplier = scaledMagnitude * 25.0;
+
+            offsetX = (int)(scaledThumbX * multiplier);
+            offsetY = (int)(scaledThumbY * multiplier);
         }
     }
 }
