@@ -56,8 +56,10 @@ namespace XInputWrapper {
 	public value class MouseEventWrapper
 	{
 	public:
-		static const DWORD MOUSEEVENTTF_LEFTDOWN = 0x0002;
-		static const DWORD MOUSEEVENTTF_LEFTUP = 0x0004;
+		static const DWORD FLAG_MOUSEEVENTF_LEFTDOWN = MOUSEEVENTF_LEFTDOWN;
+		static const DWORD FLAG_MOUSEEVENTF_LEFTUP = MOUSEEVENTF_LEFTUP;
+		static const DWORD FLAG_MOUSEEVENTF_RIGHTDOWN = MOUSEEVENTF_RIGHTDOWN;
+		static const DWORD FLAG_MOUSEEVENTF_RIGHTUP = MOUSEEVENTF_RIGHTUP;
 
 		static void MouseEvent(DWORD dwFlags, DWORD dx, DWORD dy, DWORD dwData, ULONG_PTR dwExtraInfo);
 	};

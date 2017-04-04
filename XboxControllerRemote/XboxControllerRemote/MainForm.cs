@@ -58,6 +58,11 @@ namespace XboxControllerRemote
             return((state.Gamepad.wButtons & buttonMask) > 0 && (prevState.Gamepad.wButtons & buttonMask) == 0) ;
         }
 
+        private bool ButtonReleased(XInputState state, XInputState prevState, ushort buttonMask)
+        {
+            return ((state.Gamepad.wButtons & buttonMask) == 0 && (prevState.Gamepad.wButtons & buttonMask) > 0);
+        }
+
         public void DetectInput()
         {
             XInputState state = XInputState.XInputGetStateWrapper(0);
@@ -149,8 +154,19 @@ namespace XboxControllerRemote
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
                 {
-                    MouseEventWrapper.MouseEvent(MouseEventWrapper.MOUSEEVENTTF_LEFTDOWN, 0, 0, 0, 0);
-                    MouseEventWrapper.MouseEvent(MouseEventWrapper.MOUSEEVENTTF_LEFTUP, 0, 0, 0, 0);
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                }
+                else if (ButtonReleased(state, prevState, XInputConstants.GAMEPAD_A))
+                {
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_B))
+                {
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+                }
+                else if (ButtonReleased(state, prevState, XInputConstants.GAMEPAD_B))
+                {
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
                 {
