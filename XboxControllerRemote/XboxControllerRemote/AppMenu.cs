@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace XboxControllerRemote
 {
-    class AppMenu : Menu
+    public class AppMenu : Menu
     {
         private string[] menuItems = { "Netflix", "Hulu" };
         private Dictionary<string, string> urls = new Dictionary<string, string>()

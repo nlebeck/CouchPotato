@@ -5,25 +5,20 @@ using System.Drawing;
 
 namespace XboxControllerRemote
 {
-    public class Keyboard
+    public class Keyboard : Menu
     {
-        public enum Direction { Left, Right, Up, Down };
         public enum KeySet { Lowercase, Uppercase, Symbols };
 
         private static string FONT = "Arial";
 
         private Dictionary<KeySet, string[][]> keySets = new Dictionary<KeySet, string[][]>();
-        private int width;
-        private int height;
 
         private int selectedCol;
         private int selectedRow;
         KeySet currentKeySet;
 
-        public Keyboard(int width, int height)
+        public Keyboard(MainForm form, int width, int height) : base(form, width, height)
         {
-            this.width = width;
-            this.height = height;
 
             string[][] uppercaseKeys = new string[4][];
             uppercaseKeys[0] = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
@@ -90,7 +85,7 @@ namespace XboxControllerRemote
             return height / (GetMaxNumRows() + 1);
         }
 
-        public void DrawKeyboard(Graphics graphics)
+        public override void Draw(Graphics graphics)
         {
             graphics.Clear(Color.LightGray);
 
@@ -130,25 +125,67 @@ namespace XboxControllerRemote
             }
         }
 
-        public void MoveCursor(Direction direction)
+        public override void OnUpButton()
         {
-            switch (direction)
-            {
-                case Direction.Left:
-                    selectedCol -= 1;
-                    break;
-                case Direction.Right:
-                    selectedCol += 1;
-                    break;
-                case Direction.Up:
-                    selectedRow -= 1;
-                    break;
-                case Direction.Down:
-                    selectedRow += 1;
-                    break;
-            }
-
+            selectedRow -= 1;
             MoveSelectionInsideBounds();
+        }
+
+        public override void OnDownButton()
+        {
+            selectedRow += 1;
+            MoveSelectionInsideBounds();
+        }
+
+        public override void OnLeftButton()
+        {
+            selectedCol -= 1;
+            MoveSelectionInsideBounds();
+        }
+
+        public override void OnRightButton()
+        {
+            selectedCol += 1;
+            MoveSelectionInsideBounds();
+        }
+
+        public override void OnRightShoulderButton()
+        {
+            if (CurrentKeySet() == KeySet.Uppercase)
+            {
+                SwitchKeySet(KeySet.Lowercase);
+            }
+            else
+            {
+                SwitchKeySet(KeySet.Uppercase);
+            }
+        }
+
+        public override void OnLeftShoulderButton()
+        {
+            if (CurrentKeySet() == KeySet.Symbols)
+            {
+                SwitchKeySet(KeySet.Lowercase);
+            }
+            else
+            {
+                SwitchKeySet(KeySet.Symbols);
+            }
+        }
+
+        public override void OnBackButton()
+        {
+            mainForm.SwitchToApp();
+        }
+
+        public override void OnAButton()
+        {
+            mainForm.SendKeyToApp(GetSelectedKey());
+        }
+
+        public override void OnBButton()
+        {
+            mainForm.SendKeyToApp("{BACKSPACE}");
         }
 
         private void MoveSelectionInsideBounds()

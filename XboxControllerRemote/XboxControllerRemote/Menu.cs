@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace XboxControllerRemote
 {
-    abstract class Menu
+    public abstract class Menu
     {
         protected MainForm mainForm;
         protected int width;
