@@ -11,6 +11,8 @@ namespace XboxControllerRemote
 {
     public partial class MainForm : Form
     {
+        private enum State { Menu, App, Keyboard }
+
         private const string BROWSER_FILE_NAME = "IExplore.exe";
         private const string NETFLIX_URL = "https://www.netflix.com";
 
@@ -32,8 +34,8 @@ namespace XboxControllerRemote
         private Process browserProcess = null;
         private BufferedGraphics buffer;
         private Keyboard keyboard;
-
-        private bool inKeyboardMode = false;
+        private Menu currentMenu;
+        private State currentState;
 
         public MainForm()
         {
@@ -45,6 +47,8 @@ namespace XboxControllerRemote
             Height = (int)(Width / KEYBOARD_ASPECT_RATIO);
 
             keyboard = new Keyboard(Width, Height);
+            currentMenu = new AppMenu(this, Width, Height);
+            currentState = State.Menu;
 
             buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
 
@@ -63,11 +67,66 @@ namespace XboxControllerRemote
             return ((state.Gamepad.wButtons & buttonMask) == 0 && (prevState.Gamepad.wButtons & buttonMask) > 0);
         }
 
+        public void LaunchWebsite(string url)
+        {
+            browserProcess = Process.Start(BROWSER_FILE_NAME, url);
+            SetForegroundWindow(browserProcess.MainWindowHandle);
+            currentState = State.App;
+        }
+
         public void DetectInput()
         {
             XInputState state = XInputState.XInputGetStateWrapper(0);
 
-            if (inKeyboardMode)
+            if (currentState == State.Menu)
+            {
+                Graphics formGraphics = CreateGraphics();
+                currentMenu.Draw(buffer.Graphics);
+                buffer.Render(formGraphics);
+                formGraphics.Dispose();
+
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
+                {
+                    currentMenu.OnAButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_B))
+                {
+                    currentMenu.OnBButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
+                {
+                    currentMenu.OnStartButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
+                {
+                    currentMenu.OnBackButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_UP))
+                {
+                    currentMenu.OnUpButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_DOWN))
+                {
+                    currentMenu.OnDownButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_LEFT))
+                {
+                    currentMenu.OnLeftButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_RIGHT))
+                {
+                    currentMenu.OnRightButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_LEFT_SHOULDER))
+                {
+                    currentMenu.OnLeftShoulderButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_RIGHT_SHOULDER))
+                {
+                    currentMenu.OnRightShoulderButton();
+                }
+            }
+            else if (currentState == State.Keyboard)
             {
                 Graphics formGraphics = CreateGraphics();
                 keyboard.DrawKeyboard(buffer.Graphics);
@@ -78,7 +137,7 @@ namespace XboxControllerRemote
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
-                    inKeyboardMode = false;
+                    currentState = State.App;
                     timer.Interval = POLLING_INTERVAL_MS;
                     SetForegroundWindow(browserProcess.MainWindowHandle);
                 }
@@ -138,7 +197,7 @@ namespace XboxControllerRemote
                     SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
                 }
             }
-            else
+            else if (currentState == State.App)
             {
                 int offsetX = 0;
                 int offsetY = 0;
@@ -170,7 +229,7 @@ namespace XboxControllerRemote
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
-                    inKeyboardMode = true;
+                    currentState = State.Keyboard;
                     timer.Interval = KEYBOARD_POLLING_INTERVAL_MS;
                     SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
                 }
@@ -182,6 +241,11 @@ namespace XboxControllerRemote
                 {
                     MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, (uint)(-MouseEventWrapper.VALUE_WHEEL_DELTA / 8), 0);
                 }
+            }
+
+            if (browserProcess != null && browserProcess.HasExited)
+            {
+                Application.Exit();
             }
 
             prevState = state;
