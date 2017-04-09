@@ -9,7 +9,7 @@ namespace XboxControllerRemote
 {
     public class AppMenu : Menu
     {
-        private string[] menuItems = { "Netflix", "Hulu" };
+        private string[] menuItems = { "Netflix", "Hulu", "Steam" };
         private Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { "Netflix", "https://www.netflix.com" },
@@ -68,6 +68,10 @@ namespace XboxControllerRemote
             if (urls.ContainsKey(selectedItem))
             {
                 mainForm.LaunchWebsite(urls[selectedItem]);
+            }
+            else if (selectedItem.Equals("Steam"))
+            {
+                mainForm.StartSteam();
             }
         }
     }

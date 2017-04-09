@@ -11,10 +11,9 @@ namespace XboxControllerRemote
 {
     public partial class MainForm : Form
     {
-        private enum State { Menu, App }
+        private enum State { Menu, App, Disabled }
 
         private const string BROWSER_FILE_NAME = "IExplore.exe";
-        private const string NETFLIX_URL = "https://www.netflix.com";
 
         private const int BUTTON_PRESS_SLEEP_MS = 50;
         private const int POLLING_INTERVAL_MS = 10;
@@ -30,7 +29,7 @@ namespace XboxControllerRemote
 
         private XInputState prevState;
         private System.Timers.Timer timer;
-        private Process browserProcess = null;
+        private Process appProcess = null;
         private BufferedGraphics buffer;
         private Menu currentMenu;
         private State currentState;
@@ -66,10 +65,24 @@ namespace XboxControllerRemote
 
         public void LaunchWebsite(string url)
         {
-            browserProcess = Process.Start(BROWSER_FILE_NAME, url);
-            SetForegroundWindow(browserProcess.MainWindowHandle);
+            appProcess = Process.Start(BROWSER_FILE_NAME, url);
+            SetForegroundWindow(appProcess.MainWindowHandle);
             currentState = State.App;
             ChangeMenu(typeof(KeyboardMenu));
+        }
+
+        public void StartSteam()
+        {
+            Process[] steamProcesses = Process.GetProcessesByName("Steam");
+            if (steamProcesses.Length > 0)
+            {
+                appProcess = Process.Start("C:\\Program Files (x86)\\Steam\\steam.exe", "steam://open/bigpicture");
+            }
+            else
+            {
+                appProcess = Process.Start("C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture");
+            }
+            currentState = State.Disabled;
         }
 
         public void ChangeMenu(Type menu)
@@ -80,7 +93,7 @@ namespace XboxControllerRemote
         public void SwitchToApp()
         {
             currentState = State.App;
-            SetForegroundWindow(browserProcess.MainWindowHandle);
+            SetForegroundWindow(appProcess.MainWindowHandle);
         }
 
         public void SwitchToMenu()
@@ -91,7 +104,7 @@ namespace XboxControllerRemote
 
         public void SendKeyToApp(string key)
         {
-            SetForegroundWindow(browserProcess.MainWindowHandle);
+            SetForegroundWindow(appProcess.MainWindowHandle);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
             SendKeys.Send(key);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
@@ -173,13 +186,6 @@ namespace XboxControllerRemote
                 {
                     MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
                 }
-                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
-                {
-                    if (browserProcess == null)
-                    {
-                        browserProcess = Process.Start(BROWSER_FILE_NAME, NETFLIX_URL);
-                    }
-                }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
                     SwitchToMenu();
@@ -194,9 +200,11 @@ namespace XboxControllerRemote
                 }
             }
 
-            if (browserProcess != null && browserProcess.HasExited)
+            if (appProcess != null && appProcess.HasExited)
             {
-                Application.Exit();
+                appProcess = null;
+                currentState = State.Menu;
+                ChangeMenu(typeof(AppMenu));
             }
 
             prevState = state;
