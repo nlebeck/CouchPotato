@@ -1,9 +1,12 @@
 # XboxControllerRemote
 
-The goal of this project is to write a program that lets you use your Xbox controller as a remote
-control when browsing Netflix, providing a similar experience to browsing Netflix on a game
-console. Depending on how things go, this project may be specialized to Netflix, or it may become
-a general mouse/keyboard emulator using an Xbox controller.
+This program lets you use your Xbox controller to browse video streaming services on your PC.
+By default, the Xbox controller acts as a mouse, but pressing the back button will put the
+controller into "keyboard mode," letting you use an on-screen keyboard to type in things like
+search keywords or login information. Currently, the program presents three hard-coded options
+for apps/websites to start (Netflix, Hulu, and Steam Big Picture mode), and it always opens
+websites in Internet Explorer, but in the future, the available apps and choice of browser will
+be customizable.
 
 ## Helpful resources that I used for this project
 
