@@ -174,6 +174,14 @@ namespace XboxControllerRemote
                     timer.Interval = KEYBOARD_POLLING_INTERVAL_MS;
                     SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
                 }
+                else if (state.Gamepad.bLeftTrigger > XInputConstants.GAMEPAD_TRIGGER_THRESHOLD)
+                {
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, MouseEventWrapper.VALUE_WHEEL_DELTA / 8, 0);
+                }
+                else if (state.Gamepad.bRightTrigger > XInputConstants.GAMEPAD_TRIGGER_THRESHOLD)
+                {
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, (uint)(-MouseEventWrapper.VALUE_WHEEL_DELTA / 8), 0);
+                }
             }
 
             prevState = state;
