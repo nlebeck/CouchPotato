@@ -18,7 +18,6 @@ namespace XboxControllerRemote
 
         private const int BUTTON_PRESS_SLEEP_MS = 50;
         private const int POLLING_INTERVAL_MS = 10;
-        private const int KEYBOARD_POLLING_INTERVAL_MS = 50;
 
         private const int HRES = 1920;
         private const double KEYBOARD_WIDTH_SCALE = 0.5;
@@ -138,7 +137,6 @@ namespace XboxControllerRemote
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
                     currentState = State.App;
-                    timer.Interval = POLLING_INTERVAL_MS;
                     SetForegroundWindow(browserProcess.MainWindowHandle);
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_LEFT))
@@ -230,7 +228,6 @@ namespace XboxControllerRemote
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
                     currentState = State.Keyboard;
-                    timer.Interval = KEYBOARD_POLLING_INTERVAL_MS;
                     SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
                 }
                 else if (state.Gamepad.bLeftTrigger > XInputConstants.GAMEPAD_TRIGGER_THRESHOLD)
