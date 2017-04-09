@@ -69,7 +69,7 @@ namespace XboxControllerRemote
             browserProcess = Process.Start(BROWSER_FILE_NAME, url);
             SetForegroundWindow(browserProcess.MainWindowHandle);
             currentState = State.App;
-            ChangeMenu(typeof(Keyboard));
+            ChangeMenu(typeof(KeyboardMenu));
         }
 
         public void ChangeMenu(Type menu)

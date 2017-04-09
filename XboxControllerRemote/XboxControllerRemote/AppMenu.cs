@@ -30,7 +30,7 @@ namespace XboxControllerRemote
             {
                 int vOffset = i * height / menuItems.Length;
                 Rectangle rect = new Rectangle(0, vOffset, width, menuItemHeight);
-                Font font = new Font("Arial", 16);
+                Font font = new Font(MENU_FONT, 16);
                 if (i == selectedIndex)
                 {
                     graphics.FillRectangle(Brushes.Black, rect);

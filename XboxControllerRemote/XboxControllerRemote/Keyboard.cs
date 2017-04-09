@@ -5,11 +5,9 @@ using System.Drawing;
 
 namespace XboxControllerRemote
 {
-    public class Keyboard : Menu
+    public class KeyboardMenu : Menu
     {
         public enum KeySet { Lowercase, Uppercase, Symbols };
-
-        private static string FONT = "Arial";
 
         private Dictionary<KeySet, string[][]> keySets = new Dictionary<KeySet, string[][]>();
 
@@ -17,7 +15,7 @@ namespace XboxControllerRemote
         private int selectedRow;
         KeySet currentKeySet;
 
-        public Keyboard(MainForm form, int width, int height) : base(form, width, height)
+        public KeyboardMenu(MainForm form, int width, int height) : base(form, width, height)
         {
 
             string[][] uppercaseKeys = new string[4][];
@@ -108,7 +106,7 @@ namespace XboxControllerRemote
                         fontSize = GetKeyWidth() / 7;
                         textY = y + GetKeyHeight() / 2;
                     }
-                    Font font = new Font(FONT, fontSize);
+                    Font font = new Font(MENU_FONT, fontSize);
 
                     if (col == selectedCol && row == selectedRow)
                     {
@@ -151,7 +149,7 @@ namespace XboxControllerRemote
 
         public override void OnRightShoulderButton()
         {
-            if (CurrentKeySet() == KeySet.Uppercase)
+            if (currentKeySet == KeySet.Uppercase)
             {
                 SwitchKeySet(KeySet.Lowercase);
             }
@@ -163,7 +161,7 @@ namespace XboxControllerRemote
 
         public override void OnLeftShoulderButton()
         {
-            if (CurrentKeySet() == KeySet.Symbols)
+            if (currentKeySet == KeySet.Symbols)
             {
                 SwitchKeySet(KeySet.Lowercase);
             }
@@ -216,11 +214,6 @@ namespace XboxControllerRemote
         public string GetSelectedKey()
         {
             return GetCurrentKeys()[selectedRow][selectedCol];
-        }
-
-        public KeySet CurrentKeySet()
-        {
-            return currentKeySet;
         }
 
         public void SwitchKeySet(KeySet keySet)

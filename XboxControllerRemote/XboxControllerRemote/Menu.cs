@@ -9,6 +9,8 @@ namespace XboxControllerRemote
 {
     public abstract class Menu
     {
+        protected const string MENU_FONT = "Arial";
+
         protected MainForm mainForm;
         protected int width;
         protected int height;
