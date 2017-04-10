@@ -76,7 +76,8 @@ namespace XboxControllerRemote
             Process[] steamProcesses = Process.GetProcessesByName("Steam");
             if (steamProcesses.Length > 0)
             {
-                appProcess = Process.Start("C:\\Program Files (x86)\\Steam\\steam.exe", "steam://open/bigpicture");
+                appProcess = steamProcesses[0];
+                Process.Start("C:\\Program Files (x86)\\Steam\\steam.exe", "steam://open/bigpicture");
             }
             else
             {
