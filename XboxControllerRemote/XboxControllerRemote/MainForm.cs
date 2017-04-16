@@ -38,8 +38,6 @@ namespace XboxControllerRemote
         {
             InitializeComponent();
 
-            this.Cursor = new Cursor(Cursor.Current.Handle);
-
             Width = (int)(HRES * KEYBOARD_WIDTH_SCALE);
             Height = (int)(Width / KEYBOARD_ASPECT_RATIO);
 
@@ -168,7 +166,7 @@ namespace XboxControllerRemote
                 int offsetX = 0;
                 int offsetY = 0;
                 GetMouseOffsets(state.Gamepad.sThumbLX, state.Gamepad.sThumbLY, out offsetX, out offsetY);
-                Cursor.Position = new Point(Cursor.Position.X + offsetX, Cursor.Position.Y - offsetY);
+                MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_MOVE, (uint)offsetX, (uint)-offsetY, 0, 0);
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
                 {
@@ -245,7 +243,7 @@ namespace XboxControllerRemote
             }
 
             double scaledMagnitude = Math.Sqrt(Math.Pow(scaledThumbX, 2) + Math.Pow(scaledThumbY, 2));
-            double multiplier = scaledMagnitude * 25.0;
+            double multiplier = scaledMagnitude * 13.5;
 
             offsetX = (int)(scaledThumbX * multiplier);
             offsetY = (int)(scaledThumbY * multiplier);
