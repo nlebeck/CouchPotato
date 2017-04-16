@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace XboxControllerRemote
 {
     public class AppMenu : Menu
     {
-        private string[] menuItems = { "Netflix", "Hulu", "Steam" };
+        private string[] menuItems = { "Netflix", "Hulu", "Steam", "Quit" };
         private Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { "Netflix", "https://www.netflix.com" },
@@ -72,6 +73,10 @@ namespace XboxControllerRemote
             else if (selectedItem.Equals("Steam"))
             {
                 mainForm.StartSteam();
+            }
+            else if (selectedItem.Equals("Quit"))
+            {
+                Application.Exit();
             }
         }
     }
