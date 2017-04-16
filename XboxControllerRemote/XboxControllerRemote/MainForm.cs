@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Speech.Recognition;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +23,16 @@ namespace XboxControllerRemote
         private const double KEYBOARD_WIDTH_SCALE = 0.5;
         private const double KEYBOARD_ASPECT_RATIO = 16.0 / 9.0;
 
+        private const double THUMB_MAX = 32767.0;
+        private const double MOUSE_WHEEL_MULTIPLIER = 0.125;
+        private const double MOUSE_MULTIPLIER = 12.5;
+
+        private static string[] DETECTED_WORDS = { "Alpha", "Bravo", "Charlie", "Delta", "Echo",
+            "Foxtrot", "Golf", "Hotel", "India", "Juliett", "Kilo", "Lima", "Mike", "November",
+            "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey",
+            "Xray", "Yankee", "Zulu", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
+            "Eight", "Nine", "Zero", "Backspace", "Space" };
+
         [DllImport("User32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hwnd);
 
@@ -33,6 +44,10 @@ namespace XboxControllerRemote
         private BufferedGraphics buffer;
         private Menu currentMenu;
         private State currentState;
+
+        private SpeechRecognitionEngine speechEngine;
+        private bool speechModeOn = false;
+        private bool recognizingSpeech = false;
 
         public MainForm()
         {
@@ -46,9 +61,97 @@ namespace XboxControllerRemote
 
             buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
 
+            Choices letters = new Choices();
+            letters.Add(DETECTED_WORDS);
+            GrammarBuilder gb = new GrammarBuilder();
+            gb.Append(letters);
+            Grammar grammar = new Grammar(gb);
+
+            speechEngine = new SpeechRecognitionEngine();
+            speechEngine.SetInputToDefaultAudioDevice();
+            speechEngine.LoadGrammar(grammar);
+            speechEngine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(OnSpeechRecognized);
+            speechEngine.RecognizeCompleted += new EventHandler<RecognizeCompletedEventArgs>(OnRecognizeCompleted);
+
             timer = new System.Timers.Timer(POLLING_INTERVAL_MS);
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
             timer.Start();
+        }
+
+        private void OnSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            string word = e.Result.Text;
+            string key = null;
+            if (word.Equals("Backspace"))
+            {
+                key = "{BACKSPACE}";
+            }
+            else if (word.Equals("Space"))
+            {
+                key = " ";
+            }
+            else if (word.Equals("Zero"))
+            {
+                key = "0";
+            }
+            else if (word.Equals("One"))
+            {
+                key = "1";
+            }
+            else if (word.Equals("Two"))
+            {
+                key = "2";
+            }
+            else if (word.Equals("Three"))
+            {
+                key = "3";
+            }
+            else if (word.Equals("Four"))
+            {
+                key = "4";
+            }
+            else if (word.Equals("Five"))
+            {
+                key = "5";
+            }
+            else if (word.Equals("Six"))
+            {
+                key = "6";
+            }
+            else if (word.Equals("Seven"))
+            {
+                key = "7";
+            }
+            else if (word.Equals("Eight"))
+            {
+                key = "8";
+            }
+            else if (word.Equals("Nine"))
+            {
+                key = "9";
+            }
+            else
+            {
+                key = e.Result.Text.Substring(0, 1);
+            }
+            SendKeys.Send(key);
+        }
+
+        private void OnRecognizeCompleted(object sender, RecognizeCompletedEventArgs e)
+        {
+            recognizingSpeech = false;
+        }
+
+        private void BeginSpeechMode()
+        {
+            speechModeOn = true;
+        }
+
+        private void EndSpeechMode()
+        {
+            speechModeOn = false;
+            recognizingSpeech = false;
+            speechEngine.RecognizeAsyncCancel();
         }
 
         private bool ButtonPressed(XInputState state, XInputState prevState, ushort buttonMask)
@@ -208,14 +311,28 @@ namespace XboxControllerRemote
                 {
                     SendKeys.Send("{UP}");
                 }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_Y))
+                {
+                    BeginSpeechMode();
+                }
+                else if (ButtonReleased(state, prevState, XInputConstants.GAMEPAD_Y))
+                {
+                    EndSpeechMode();
+                }
                 else if (state.Gamepad.bLeftTrigger > XInputConstants.GAMEPAD_TRIGGER_THRESHOLD)
                 {
-                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, MouseEventWrapper.VALUE_WHEEL_DELTA / 8, 0);
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, (uint)(MouseEventWrapper.VALUE_WHEEL_DELTA * MOUSE_WHEEL_MULTIPLIER), 0);
                 }
                 else if (state.Gamepad.bRightTrigger > XInputConstants.GAMEPAD_TRIGGER_THRESHOLD)
                 {
-                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, (uint)(-MouseEventWrapper.VALUE_WHEEL_DELTA / 8), 0);
+                    MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_WHEEL, 0, 0, (uint)(-MouseEventWrapper.VALUE_WHEEL_DELTA * MOUSE_WHEEL_MULTIPLIER), 0);
                 }
+            }
+
+            if (speechModeOn && !recognizingSpeech)
+            {
+                speechEngine.RecognizeAsync();
+                recognizingSpeech = true;
             }
 
             if (appProcess != null && appProcess.HasExited)
@@ -230,8 +347,8 @@ namespace XboxControllerRemote
 
         public void GetMouseOffsets(short rawThumbX, short rawThumbY, out int offsetX, out int offsetY)
         {
-            double scaledThumbX = rawThumbX / 32767.0;
-            double scaledThumbY = rawThumbY / 32767.0;
+            double scaledThumbX = rawThumbX / THUMB_MAX;
+            double scaledThumbY = rawThumbY / THUMB_MAX;
 
             if (Math.Abs((int)rawThumbX) <= XInputConstants.GAMEPAD_LEFT_THUMB_DEADZONE)
             {
@@ -243,7 +360,7 @@ namespace XboxControllerRemote
             }
 
             double scaledMagnitude = Math.Sqrt(Math.Pow(scaledThumbX, 2) + Math.Pow(scaledThumbY, 2));
-            double multiplier = scaledMagnitude * 13.5;
+            double multiplier = scaledMagnitude * MOUSE_MULTIPLIER;
 
             offsetX = (int)(scaledThumbX * multiplier);
             offsetY = (int)(scaledThumbY * multiplier);
