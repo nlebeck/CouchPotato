@@ -102,7 +102,7 @@ namespace XboxControllerRemote
             SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
         }
 
-        public void SendKeyToApp(string key)
+        public void SendKeyFromKeyboardMenu(string key)
         {
             SetForegroundWindow(appProcess.MainWindowHandle);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
@@ -189,6 +189,26 @@ namespace XboxControllerRemote
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
                     SwitchToMenu();
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
+                {
+                    SendKeys.Send("{ENTER}");
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_LEFT))
+                {
+                    SendKeys.Send("{LEFT}");
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_RIGHT))
+                {
+                    SendKeys.Send("{RIGHT}");
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_DOWN))
+                {
+                    SendKeys.Send("{DOWN}");
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_UP))
+                {
+                    SendKeys.Send("{UP}");
                 }
                 else if (state.Gamepad.bLeftTrigger > XInputConstants.GAMEPAD_TRIGGER_THRESHOLD)
                 {

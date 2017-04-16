@@ -178,12 +178,12 @@ namespace XboxControllerRemote
 
         public override void OnAButton()
         {
-            mainForm.SendKeyToApp(GetSelectedKey());
+            mainForm.SendKeyFromKeyboardMenu(GetSelectedKey());
         }
 
         public override void OnBButton()
         {
-            mainForm.SendKeyToApp("{BACKSPACE}");
+            mainForm.SendKeyFromKeyboardMenu("{BACKSPACE}");
         }
 
         private void MoveSelectionInsideBounds()
