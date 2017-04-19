@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -17,7 +18,6 @@ namespace XboxControllerRemote
         private const string BROWSER_FILE_NAME = "IExplore.exe";
 
         private const int BUTTON_PRESS_SLEEP_MS = 50;
-        private const int POLLING_INTERVAL_MS = 10;
 
         private const int HRES = 1920;
         private const double KEYBOARD_WIDTH_SCALE = 0.5;
@@ -27,7 +27,11 @@ namespace XboxControllerRemote
         private const double MOUSE_WHEEL_MULTIPLIER = 0.125;
         private const double MOUSE_MULTIPLIER = 12.5;
 
-        private static string[] DETECTED_WORDS = { "Alpha", "Bravo", "Charlie", "Delta", "Echo",
+        private static readonly Dictionary<State, int> POLLING_INTERVALS_MS = new Dictionary<State, int>() {
+            { State.Menu, 10 }, { State.App, 10 }, { State.Disabled, 100 }
+        };
+
+        private static readonly string[] DETECTED_WORDS = { "Alpha", "Bravo", "Charlie", "Delta", "Echo",
             "Foxtrot", "Golf", "Hotel", "India", "Juliett", "Kilo", "Lima", "Mike", "November",
             "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey",
             "Xray", "Yankee", "Zulu", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
@@ -73,7 +77,7 @@ namespace XboxControllerRemote
             speechEngine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(OnSpeechRecognized);
             speechEngine.RecognizeCompleted += new EventHandler<RecognizeCompletedEventArgs>(OnRecognizeCompleted);
 
-            timer = new System.Timers.Timer(POLLING_INTERVAL_MS);
+            timer = new System.Timers.Timer(POLLING_INTERVALS_MS[currentState]);
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
             timer.Start();
         }
@@ -193,14 +197,27 @@ namespace XboxControllerRemote
 
         public void SwitchToApp()
         {
-            currentState = State.App;
-            SetForegroundWindow(appProcess.MainWindowHandle);
+            SwitchToState(State.App);
         }
 
         public void SwitchToMenu()
         {
-            currentState = State.Menu;
-            SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
+            SwitchToState(State.Menu);
+        }
+
+        private void SwitchToState(State state)
+        {
+            currentState = state;
+            timer.Interval = POLLING_INTERVALS_MS[state];
+
+            if (state == State.App)
+            {
+                SetForegroundWindow(appProcess.MainWindowHandle);
+            }
+            else if (state == State.Menu)
+            {
+                SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
+            }
         }
 
         public void SendKeyFromKeyboardMenu(string key)
