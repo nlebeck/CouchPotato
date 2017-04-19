@@ -10,7 +10,7 @@ namespace XboxControllerRemote
 {
     public class AppMenu : Menu
     {
-        private string[] menuItems = { "Netflix", "Hulu", "Steam", "Quit" };
+        private string[] menuItems = { "Netflix", "Hulu", "Steam", "Mouse Emulator", "Quit" };
         private Dictionary<string, string> urls = new Dictionary<string, string>()
         {
             { "Netflix", "https://www.netflix.com" },
@@ -73,6 +73,10 @@ namespace XboxControllerRemote
             else if (selectedItem.Equals("Steam"))
             {
                 mainForm.StartSteam();
+            }
+            else if (selectedItem.Equals("Mouse Emulator"))
+            {
+                mainForm.StartMouseEmulator();
             }
             else if (selectedItem.Equals("Quit"))
             {

@@ -13,8 +13,6 @@ namespace XboxControllerRemote
 {
     public partial class MainForm : Form
     {
-        private enum State { Menu, App, Disabled }
-
         private const string BROWSER_FILE_NAME = "IExplore.exe";
 
         private const int BUTTON_PRESS_SLEEP_MS = 50;
@@ -28,7 +26,7 @@ namespace XboxControllerRemote
         private const double MOUSE_MULTIPLIER = 12.5;
 
         private static readonly Dictionary<State, int> POLLING_INTERVALS_MS = new Dictionary<State, int>() {
-            { State.Menu, 10 }, { State.App, 10 }, { State.Disabled, 1000 }
+            { State.Menu, 10 }, { State.App, 10 }, { State.Disabled, 1000 }, { State.MouseEmulator, 10 }
         };
 
         private static readonly string[] DETECTED_WORDS = { "Alpha", "Bravo", "Charlie", "Delta", "Echo",
@@ -171,8 +169,14 @@ namespace XboxControllerRemote
         public void LaunchWebsite(string url)
         {
             appProcess = Process.Start(BROWSER_FILE_NAME, url);
-            SwitchToApp();
+            SwitchToState(State.App);
             ChangeMenu(typeof(KeyboardMenu));
+        }
+
+        public void StartMouseEmulator()
+        {
+            SwitchToState(State.MouseEmulator);
+            ChangeMenu(typeof(AppMenu));
         }
 
         public void StartSteam()
@@ -195,17 +199,7 @@ namespace XboxControllerRemote
             currentMenu = (Menu)Activator.CreateInstance(menu, this, Width, Height);
         }
 
-        public void SwitchToApp()
-        {
-            SwitchToState(State.App);
-        }
-
-        public void SwitchToMenu()
-        {
-            SwitchToState(State.Menu);
-        }
-
-        private void SwitchToState(State state)
+        public void SwitchToState(State state)
         {
             currentState = state;
             timer.Interval = POLLING_INTERVALS_MS[state];
@@ -281,7 +275,7 @@ namespace XboxControllerRemote
                     currentMenu.OnRightShoulderButton();
                 }
             }
-            else if (currentState == State.App)
+            else if (currentState == State.App || currentState == State.MouseEmulator)
             {
                 int offsetX = 0;
                 int offsetY = 0;
@@ -306,7 +300,7 @@ namespace XboxControllerRemote
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
-                    SwitchToMenu();
+                    SwitchToState(State.Menu);
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
                 {
@@ -355,7 +349,7 @@ namespace XboxControllerRemote
             if (appProcess != null && appProcess.HasExited)
             {
                 appProcess = null;
-                currentState = State.Menu;
+                SwitchToState(State.Menu);
                 ChangeMenu(typeof(AppMenu));
             }
 

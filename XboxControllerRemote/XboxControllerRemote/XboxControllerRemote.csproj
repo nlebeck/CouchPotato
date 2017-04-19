@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppMenu.cs" />
+    <Compile Include="State.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

@@ -173,7 +173,7 @@ namespace XboxControllerRemote
 
         public override void OnBackButton()
         {
-            mainForm.SwitchToApp();
+            mainForm.SwitchToState(State.App);
         }
 
         public override void OnAButton()
