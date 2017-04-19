@@ -28,7 +28,7 @@ namespace XboxControllerRemote
         private const double MOUSE_MULTIPLIER = 12.5;
 
         private static readonly Dictionary<State, int> POLLING_INTERVALS_MS = new Dictionary<State, int>() {
-            { State.Menu, 10 }, { State.App, 10 }, { State.Disabled, 100 }
+            { State.Menu, 10 }, { State.App, 10 }, { State.Disabled, 1000 }
         };
 
         private static readonly string[] DETECTED_WORDS = { "Alpha", "Bravo", "Charlie", "Delta", "Echo",
