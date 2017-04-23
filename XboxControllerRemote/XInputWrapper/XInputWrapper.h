@@ -30,6 +30,9 @@ namespace XInputWrapper {
 		static const unsigned short GAMEPAD_B = 0x2000;
 		static const unsigned short GAMEPAD_X = 0x4000;
 		static const unsigned short GAMEPAD_Y = 0x8000;
+
+		static const unsigned int RET_ERROR_SUCCESS = ERROR_SUCCESS;
+		static const unsigned int RET_ERROR_DEVICE_NOT_CONNECTED = ERROR_DEVICE_NOT_CONNECTED;
 	};
 
 	public value class XInputGamepad
@@ -50,7 +53,7 @@ namespace XInputWrapper {
 		DWORD dwPacketNumber;
 		XInputGamepad Gamepad;
 
-		static XInputState XInputGetStateWrapper(DWORD dwUserIndex);
+		static DWORD XInputGetStateWrapper(DWORD dwUserIndex, XInputState% state);
 	};
 
 	public value class MouseEventWrapper

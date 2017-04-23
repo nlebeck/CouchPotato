@@ -47,9 +47,12 @@ namespace XboxControllerRemote
         private Menu currentMenu;
         private State currentState;
 
-        private SpeechRecognitionEngine speechEngine;
+        private SpeechRecognitionEngine speechEngine = null;
+        private bool speechModeEnabled = true;
         private bool speechModeOn = false;
         private bool recognizingSpeech = false;
+
+        private bool exiting = false;
 
         public MainForm()
         {
@@ -63,17 +66,28 @@ namespace XboxControllerRemote
 
             buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
 
-            Choices letters = new Choices();
-            letters.Add(DETECTED_WORDS);
-            GrammarBuilder gb = new GrammarBuilder();
-            gb.Append(letters);
-            Grammar grammar = new Grammar(gb);
-
             speechEngine = new SpeechRecognitionEngine();
-            speechEngine.SetInputToDefaultAudioDevice();
-            speechEngine.LoadGrammar(grammar);
-            speechEngine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(OnSpeechRecognized);
-            speechEngine.RecognizeCompleted += new EventHandler<RecognizeCompletedEventArgs>(OnRecognizeCompleted);
+            try
+            {
+                speechEngine.SetInputToDefaultAudioDevice();
+            }
+            catch (InvalidOperationException)
+            {
+                speechModeEnabled = false;
+                Debug.WriteLine("Speech input disabled: no microphone detected");
+            }
+            if (speechModeEnabled)
+            {
+                Choices letters = new Choices();
+                letters.Add(DETECTED_WORDS);
+                GrammarBuilder gb = new GrammarBuilder();
+                gb.Append(letters);
+                Grammar grammar = new Grammar(gb);
+
+                speechEngine.LoadGrammar(grammar);
+                speechEngine.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(OnSpeechRecognized);
+                speechEngine.RecognizeCompleted += new EventHandler<RecognizeCompletedEventArgs>(OnRecognizeCompleted);
+            }
 
             timer = new System.Timers.Timer(POLLING_INTERVALS_MS[currentState]);
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
@@ -146,14 +160,20 @@ namespace XboxControllerRemote
 
         private void BeginSpeechMode()
         {
-            speechModeOn = true;
+            if (speechModeEnabled)
+            {
+                speechModeOn = true;
+            }
         }
 
         private void EndSpeechMode()
         {
-            speechModeOn = false;
-            recognizingSpeech = false;
-            speechEngine.RecognizeAsyncCancel();
+            if (speechModeEnabled)
+            {
+                speechModeOn = false;
+                recognizingSpeech = false;
+                speechEngine.RecognizeAsyncCancel();
+            }
         }
 
         private bool ButtonPressed(XInputState state, XInputState prevState, ushort buttonMask)
@@ -223,9 +243,27 @@ namespace XboxControllerRemote
             SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
         }
 
+        public void ExitWithMessage(string message)
+        {
+            exiting = true;
+            timer.Stop();
+            MessageBox.Show("Exiting program: " + message);
+            Application.Exit();
+        }
+
         public void DetectInput()
         {
-            XInputState state = XInputState.XInputGetStateWrapper(0);
+            if (exiting)
+            {
+                return;
+            }
+
+            XInputState state = new XInputState();
+            uint ret = XInputState.XInputGetStateWrapper(0, ref state);
+            if (ret != XInputConstants.RET_ERROR_SUCCESS)
+            {
+                ExitWithMessage("No XInput-compatible controller plugged in");
+            }
 
             if (currentState == State.Menu)
             {
