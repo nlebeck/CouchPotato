@@ -376,9 +376,13 @@ namespace XboxControllerRemote
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_Y))
                 {
+                    SendKeys.Send("{ESC}");
+                }
+                else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_X))
+                {
                     BeginSpeechMode();
                 }
-                else if (ButtonReleased(state, prevState, XInputConstants.GAMEPAD_Y))
+                else if (ButtonReleased(state, prevState, XInputConstants.GAMEPAD_X))
                 {
                     EndSpeechMode();
                 }

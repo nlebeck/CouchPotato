@@ -8,6 +8,33 @@ for apps/websites to start (Netflix, Hulu, and Steam Big Picture mode), and it a
 websites in Internet Explorer, but in the future, the available apps and choice of browser will
 be customizable.
 
+## Controls
+
+When using a video streaming service, this program operates in two different modes. In "app mode,"
+you can use the controller to move and click the mouse and enter certain keyboard keys. In
+"keyboard mode," you can enter keyboard input including letters, numbers, and symbols using an
+on-screen keyboard.
+
+### App mode
+
+Left thumbstick: move mouse
+A: left click
+B: right click
+X (hold): enable speech recognition for alphanumeric input
+Y: escape key
+D-Pad: left/right/up/down arrow keys
+Start: enter key
+Back: switch to keyboard mode
+
+### Keyboard mode
+
+Right thumbstick: move keyboard window on screen
+A: press selected key
+B: backspace key
+Y: escape key
+Start: enter key
+Back: switch to app mode
+
 ## Notes
 
 * I use `mouse_event()` rather than `SendInput()` to spoof mouse input because
