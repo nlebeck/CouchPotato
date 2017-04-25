@@ -21,21 +21,21 @@ namespace XboxControllerRemote
             string[][] uppercaseKeys = new string[4][];
             uppercaseKeys[0] = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
             uppercaseKeys[1] = new string[] { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" };
-            uppercaseKeys[2] = new string[] { "A", "S", "D", "F", "G", "H", "J", "K", "L", "{ENTER}" };
+            uppercaseKeys[2] = new string[] { "A", "S", "D", "F", "G", "H", "J", "K", "L" };
             uppercaseKeys[3] = new string[] { "Z", "X", "C", "V", "B", "N", "M", "@", "." };
             keySets.Add(KeySet.Uppercase, uppercaseKeys);
 
             string[][] lowercaseKeys = new string[4][];
             lowercaseKeys[0] = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
             lowercaseKeys[1] = new string[] { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p" };
-            lowercaseKeys[2] = new string[] { "a", "s", "d", "f", "g", "h", "j", "k", "l", "{ENTER}" };
+            lowercaseKeys[2] = new string[] { "a", "s", "d", "f", "g", "h", "j", "k", "l" };
             lowercaseKeys[3] = new string[] { "z", "x", "c", "v", "b", "n", "m", "@", "." };
             keySets.Add(KeySet.Lowercase, lowercaseKeys);
 
             string[][] symbolKeys = new string[4][];
             symbolKeys[0] = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
             symbolKeys[1] = new string[] { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" };
-            symbolKeys[2] = new string[] { "-", "_", "=", "+", "[", "]", "{", "}", "'", "{ENTER}" };
+            symbolKeys[2] = new string[] { "-", "_", "=", "+", "[", "]", "{", "}", "'" };
             symbolKeys[3] = new string[] { "\\", "|", "<", ">", ",", ".", "?", "/", "\"" };
             keySets.Add(KeySet.Symbols, symbolKeys);
 
@@ -184,6 +184,16 @@ namespace XboxControllerRemote
         public override void OnBButton()
         {
             mainForm.SendKeyFromKeyboardMenu("{BACKSPACE}");
+        }
+
+        public override void OnStartButton()
+        {
+            mainForm.SendKeyFromKeyboardMenu("{ENTER}");
+        }
+
+        public override void OnYButton()
+        {
+            mainForm.SendKeyFromKeyboardMenu("{ESCAPE}");
         }
 
         private void MoveSelectionInsideBounds()

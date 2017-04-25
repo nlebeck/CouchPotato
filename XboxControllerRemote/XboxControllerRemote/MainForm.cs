@@ -286,6 +286,14 @@ namespace XboxControllerRemote
                 {
                     currentMenu.OnBButton();
                 }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_X))
+                {
+                    currentMenu.OnXButton();
+                }
+                if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_Y))
+                {
+                    currentMenu.OnYButton();
+                }
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
                 {
                     currentMenu.OnStartButton();

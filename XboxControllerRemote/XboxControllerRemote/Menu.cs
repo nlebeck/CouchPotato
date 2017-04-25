@@ -34,5 +34,7 @@ namespace XboxControllerRemote
         public virtual void OnRightShoulderButton() { }
         public virtual void OnAButton() { }
         public virtual void OnBButton() { }
+        public virtual void OnXButton() { }
+        public virtual void OnYButton() { }
     }
 }
