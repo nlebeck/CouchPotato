@@ -272,6 +272,12 @@ namespace XboxControllerRemote
                 buffer.Render(formGraphics);
                 formGraphics.Dispose();
 
+                int offsetX = 0;
+                int offsetY = 0;
+                GetMovementOffsets(state.Gamepad.sThumbRX, state.Gamepad.sThumbRY, out offsetX, out offsetY);
+
+                this.Location = new Point(this.Location.X + offsetX, this.Location.Y - offsetY);
+
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
                 {
                     currentMenu.OnAButton();
@@ -317,7 +323,7 @@ namespace XboxControllerRemote
             {
                 int offsetX = 0;
                 int offsetY = 0;
-                GetMouseOffsets(state.Gamepad.sThumbLX, state.Gamepad.sThumbLY, out offsetX, out offsetY);
+                GetMovementOffsets(state.Gamepad.sThumbLX, state.Gamepad.sThumbLY, out offsetX, out offsetY);
                 MouseEventWrapper.MouseEvent(MouseEventWrapper.FLAG_MOUSEEVENTF_MOVE, (uint)offsetX, (uint)-offsetY, 0, 0);
 
                 if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_A))
@@ -394,7 +400,7 @@ namespace XboxControllerRemote
             prevState = state;
         }
 
-        public void GetMouseOffsets(short rawThumbX, short rawThumbY, out int offsetX, out int offsetY)
+        public void GetMovementOffsets(short rawThumbX, short rawThumbY, out int offsetX, out int offsetY)
         {
             double scaledThumbX = rawThumbX / THUMB_MAX;
             double scaledThumbY = rawThumbY / THUMB_MAX;
