@@ -13,27 +13,37 @@ be customizable.
 When using a video streaming service, this program operates in two different modes. In "app mode,"
 you can use the controller to move and click the mouse and enter certain keyboard keys. In
 "keyboard mode," you can enter keyboard input including letters, numbers, and symbols using an
-on-screen keyboard.
+on-screen keyboard. There is also a "mouse emulator mode" available from the app's main menu. In
+this mode, the Xbox controller simply acts as a mouse, and keyboard mode is not available, allowing
+you to start any program you want or do anything else you can do with just a mouse.
 
 ### App mode
 
-Left thumbstick: move mouse
-A: left click
-B: right click
-X (hold): enable speech recognition for alphanumeric input
-Y: escape key
-D-Pad: left/right/up/down arrow keys
-Start: enter key
-Back: switch to keyboard mode
+* Left thumbstick: move mouse
+* A: left click
+* B: right click
+* X (hold): enable speech recognition for alphanumeric input
+* Y: escape key
+* D-Pad: left/right/up/down arrow keys
+* Start: enter key
+* Back: switch to keyboard mode
 
 ### Keyboard mode
 
-Right thumbstick: move keyboard window on screen
-A: press selected key
-B: backspace key
-Y: escape key
-Start: enter key
-Back: switch to app mode
+* Right thumbstick: move keyboard window on screen
+* D-Pad: move the cursor on the on-screen keyboard
+* A: press selected key
+* B: backspace key
+* Y: escape key
+* Start: enter key
+* Back: switch to app mode
+
+### Mouse emulator mode
+
+* Left thumbstick: move mouse
+* A: left click
+* B: right click
+* Back: return to the main menu
 
 ## Notes
 
