@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Drawing;
+using XboxControllerRemote.AppMenuItems;
 
 namespace XboxControllerRemote
 {
     public class AppMenu : Menu
     {
-        private string[] menuItems = { "Netflix", "Hulu", "Steam", "Mouse Emulator", "Quit" };
-        private Dictionary<string, string> urls = new Dictionary<string, string>()
-        {
-            { "Netflix", "https://www.netflix.com" },
-            { "Hulu", "https://www.hulu.com" }
+        private AppMenuItem[] menuItems = {
+            new WebsiteItem() { Name = "Netflix", Url = "https://www.netflix.com" },
+            new WebsiteItem() { Name = "Hulu", Url = "https://www.hulu.com" },
+            new ControllerProgramItem() { Name = "Steam", ProcessName = "Steam", ProcessPath = "C:\\Program Files (x86)\\Steam\\steam.exe", Args = "-bigPicture", AppStartedArgs = "steam://open/bigpicture"},
+            new MouseEmulatorItem(),
+            new QuitItem()
         };
 
         private int selectedIndex = 0;
@@ -35,12 +31,12 @@ namespace XboxControllerRemote
                 if (i == selectedIndex)
                 {
                     graphics.FillRectangle(Brushes.Black, rect);
-                    graphics.DrawString(menuItems[i], font, Brushes.White, 0, vOffset);
+                    graphics.DrawString(menuItems[i].Name, font, Brushes.White, 0, vOffset);
                 }
                 else
                 {
                     graphics.DrawRectangle(Pens.Black, rect);
-                    graphics.DrawString(menuItems[i], font, Brushes.Black, 0, vOffset);
+                    graphics.DrawString(menuItems[i].Name, font, Brushes.Black, 0, vOffset);
                 }
             }
         }
@@ -65,23 +61,8 @@ namespace XboxControllerRemote
 
         public override void OnAButton()
         {
-            string selectedItem = menuItems[selectedIndex];
-            if (urls.ContainsKey(selectedItem))
-            {
-                mainForm.LaunchWebsite(urls[selectedItem]);
-            }
-            else if (selectedItem.Equals("Steam"))
-            {
-                mainForm.StartSteam();
-            }
-            else if (selectedItem.Equals("Mouse Emulator"))
-            {
-                mainForm.StartMouseEmulator();
-            }
-            else if (selectedItem.Equals("Quit"))
-            {
-                Application.Exit();
-            }
+            AppMenuItem selectedItem = menuItems[selectedIndex];
+            mainForm.StartApp(selectedItem);
         }
     }
 }

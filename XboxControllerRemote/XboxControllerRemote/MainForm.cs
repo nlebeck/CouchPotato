@@ -8,12 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using XInputWrapper;
+using XboxControllerRemote.AppMenuItems;
 
 namespace XboxControllerRemote
 {
     public partial class MainForm : Form
     {
-        private const string BROWSER_FILE_NAME = "IExplore.exe";
+        private const string BROWSER_PROCESS_PATH = "IExplore.exe";
 
         private const int BUTTON_PRESS_SLEEP_MS = 50;
 
@@ -186,32 +187,48 @@ namespace XboxControllerRemote
             return ((state.Gamepad.wButtons & buttonMask) == 0 && (prevState.Gamepad.wButtons & buttonMask) > 0);
         }
 
-        public void LaunchWebsite(string url)
+        public void StartApp(AppMenuItem menuItem)
         {
-            appProcess = Process.Start(BROWSER_FILE_NAME, url);
-            SwitchToState(State.App);
-            ChangeMenu(typeof(KeyboardMenu));
-        }
-
-        public void StartMouseEmulator()
-        {
-            SwitchToState(State.MouseEmulator);
-            ChangeMenu(typeof(AppMenu));
-        }
-
-        public void StartSteam()
-        {
-            Process[] steamProcesses = Process.GetProcessesByName("Steam");
-            if (steamProcesses.Length > 0)
+            if (menuItem is WebsiteItem)
             {
-                appProcess = steamProcesses[0];
-                Process.Start("C:\\Program Files (x86)\\Steam\\steam.exe", "steam://open/bigpicture");
+                WebsiteItem websiteItem = (WebsiteItem)menuItem;
+                appProcess = Process.Start(BROWSER_PROCESS_PATH, websiteItem.Url);
+                SwitchToState(State.App);
+                ChangeMenu(typeof(KeyboardMenu));
             }
-            else
+            else if (menuItem is ControllerProgramItem)
             {
-                appProcess = Process.Start("C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture");
+                ControllerProgramItem programItem = (ControllerProgramItem)menuItem;
+
+                Process[] processes = Process.GetProcessesByName(programItem.ProcessName);
+                if (processes.Length > 0)
+                {
+                    if (programItem.AppStartedArgs == null)
+                    {
+                        throw new InvalidOperationException(string.Format("Process {0} is already running.", programItem.ProcessName));
+                    }
+                    else
+                    {
+                        appProcess = processes[0];
+                        Process.Start(programItem.ProcessPath, programItem.AppStartedArgs);
+                    }
+                }
+                else
+                {
+                    appProcess = Process.Start(programItem.ProcessPath, programItem.Args);
+                }
+
+                SwitchToState(State.Disabled);
             }
-            currentState = State.Disabled;
+            else if (menuItem is MouseEmulatorItem)
+            {
+                SwitchToState(State.MouseEmulator);
+                ChangeMenu(typeof(AppMenu));
+            }
+            else if (menuItem is QuitItem)
+            {
+                Exit();
+            }
         }
 
         public void ChangeMenu(Type menu)
@@ -241,6 +258,13 @@ namespace XboxControllerRemote
             SendKeys.Send(key);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
             SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
+        }
+
+        public void Exit()
+        {
+            exiting = true;
+            timer.Stop();
+            Application.Exit();
         }
 
         public void ExitWithMessage(string message)
