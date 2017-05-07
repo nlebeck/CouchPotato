@@ -1,10 +1,10 @@
 ﻿namespace XboxControllerRemote.AppMenuItems
 {
-    class ControllerProgramItem : AppMenuItem
+    /// <summary>
+    /// A program that has native controller support, so mouse/keyboard emulation is disabled.
+    /// </summary>
+    class ControllerProgramItem : ProgramItem
     {
-        public string ProcessName { get; set; }
-        public string ProcessPath { get; set; }
-        public string Args { get; set; }
-        public string AppStartedArgs { get; set; }
+
     }
 }

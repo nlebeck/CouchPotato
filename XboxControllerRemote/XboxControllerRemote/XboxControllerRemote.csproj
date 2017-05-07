@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AppMenu.cs" />
     <Compile Include="AppMenuItems\ControllerProgramItem.cs" />
+    <Compile Include="AppMenuItems\ProgramItem.cs" />
     <Compile Include="AppMenuItems\QuitItem.cs" />
     <Compile Include="AppMenuItems\AppMenuItem.cs" />
     <Compile Include="AppMenuItems\MouseEmulatorItem.cs" />

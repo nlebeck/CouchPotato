@@ -9,6 +9,7 @@ namespace XboxControllerRemote
             new WebsiteItem() { Name = "Netflix", Url = "https://www.netflix.com" },
             new WebsiteItem() { Name = "Hulu", Url = "https://www.hulu.com" },
             new ControllerProgramItem() { Name = "Steam", ProcessName = "Steam", ProcessPath = "C:\\Program Files (x86)\\Steam\\steam.exe", Args = "-bigPicture", AppStartedArgs = "steam://open/bigpicture"},
+            new ProgramItem() { Name = "Skype", ProcessName = "Skype", ProcessPath = "C:\\Program Files (x86)\\Skype\\Phone\\Skype.exe", Args = "", AppStartedArgs = "" },
             new MouseEmulatorItem(),
             new QuitItem()
         };

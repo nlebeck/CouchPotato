@@ -196,9 +196,9 @@ namespace XboxControllerRemote
                 SwitchToState(State.App);
                 ChangeMenu(typeof(KeyboardMenu));
             }
-            else if (menuItem is ControllerProgramItem)
+            else if (menuItem is ProgramItem)
             {
-                ControllerProgramItem programItem = (ControllerProgramItem)menuItem;
+                ProgramItem programItem = (ProgramItem)menuItem;
 
                 Process[] processes = Process.GetProcessesByName(programItem.ProcessName);
                 if (processes.Length > 0)
@@ -218,7 +218,15 @@ namespace XboxControllerRemote
                     appProcess = Process.Start(programItem.ProcessPath, programItem.Args);
                 }
 
-                SwitchToState(State.Disabled);
+                if (programItem is ControllerProgramItem)
+                {
+                    SwitchToState(State.Disabled);
+                }
+                else
+                {
+                    SwitchToState(State.App);
+                    ChangeMenu(typeof(KeyboardMenu));
+                }
             }
             else if (menuItem is MouseEmulatorItem)
             {
