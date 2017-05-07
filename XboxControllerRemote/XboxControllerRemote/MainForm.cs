@@ -233,6 +233,10 @@ namespace XboxControllerRemote
                 SwitchToState(State.MouseEmulator);
                 ChangeMenu(typeof(AppMenu));
             }
+            else if (menuItem is ShutdownItem)
+            {
+                Process.Start("shutdown", "/s /t 0");
+            }
             else if (menuItem is QuitItem)
             {
                 Exit();

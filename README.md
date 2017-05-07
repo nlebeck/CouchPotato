@@ -58,3 +58,4 @@ would apply to `mouse_event()` as well.
 
 * Microsoft's XInput tutorial: https://msdn.microsoft.com/en-us/library/windows/desktop/ee417001(v=vs.85).aspx
 * This discussion gave me the idea of using `mouse_event()` to simulate button clicks, although I had to write a C++/CLI wrapper for it since I couldn't get a DllImport to work as shown: https://www.gamedev.net/topic/321029-how-to-simulate-a-mouse-click-in-c/
+* Shutting down the computer from inside of a C# program: http://stackoverflow.com/questions/102567/how-to-shut-down-the-computer-from-c-sharp

@@ -11,6 +11,7 @@ namespace XboxControllerRemote
             new ControllerProgramItem() { Name = "Steam", ProcessName = "Steam", ProcessPath = "C:\\Program Files (x86)\\Steam\\steam.exe", Args = "-bigPicture", AppStartedArgs = "steam://open/bigpicture"},
             new ProgramItem() { Name = "Skype (Classic)", ProcessName = "Skype", ProcessPath = "C:\\Program Files (x86)\\Skype\\Phone\\Skype.exe", Args = "", AppStartedArgs = "" },
             new MouseEmulatorItem(),
+            new ShutdownItem(),
             new QuitItem()
         };
 
