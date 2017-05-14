@@ -388,7 +388,7 @@ namespace XboxControllerRemote
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
-                    SwitchToState(State.Menu);
+                    SendKeys.Send("{ESC}");
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
                 {
@@ -412,7 +412,7 @@ namespace XboxControllerRemote
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_Y))
                 {
-                    SendKeys.Send("{ESC}");
+                    SwitchToState(State.Menu);
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_X))
                 {

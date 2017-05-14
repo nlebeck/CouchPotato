@@ -23,10 +23,10 @@ you to start any program you want or do anything else you can do with just a mou
 * A: left click
 * B: right click
 * X (hold): enable speech recognition for alphanumeric input
-* Y: escape key
+* Y: switch to keyboard mode
 * D-Pad: left/right/up/down arrow keys
 * Start: enter key
-* Back: switch to keyboard mode
+* Back: escape key
 
 ### Keyboard mode
 
@@ -34,9 +34,9 @@ you to start any program you want or do anything else you can do with just a mou
 * D-Pad: move the cursor on the on-screen keyboard
 * A: press selected key
 * B: backspace key
-* Y: escape key
+* Y: return to app mode
 * Start: enter key
-* Back: switch to app mode
+* Back: escape key
 
 ### Mouse emulator mode
 

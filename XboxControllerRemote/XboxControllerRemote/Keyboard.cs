@@ -173,7 +173,7 @@ namespace XboxControllerRemote
 
         public override void OnBackButton()
         {
-            mainForm.SwitchToState(State.App);
+            mainForm.SendKeyFromKeyboardMenu("{ESCAPE}");
         }
 
         public override void OnAButton()
@@ -193,7 +193,7 @@ namespace XboxControllerRemote
 
         public override void OnYButton()
         {
-            mainForm.SendKeyFromKeyboardMenu("{ESCAPE}");
+            mainForm.SwitchToState(State.App);
         }
 
         private void MoveSelectionInsideBounds()
