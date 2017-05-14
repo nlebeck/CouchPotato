@@ -282,7 +282,10 @@ namespace XboxControllerRemote
         public void ExitWithMessage(string message)
         {
             exiting = true;
-            timer.Stop();
+            if (timer != null)
+            {
+                timer.Stop();
+            }
             MessageBox.Show("Exiting program: " + message);
             Application.Exit();
         }
