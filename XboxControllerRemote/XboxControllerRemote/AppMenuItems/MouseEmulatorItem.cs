@@ -3,8 +3,8 @@
     public class MouseEmulatorItem : AppMenuItem
     {
         public MouseEmulatorItem()
+            : base("Mouse Emulator")
         {
-            Name = "Mouse Emulator";
         }
     }
 }

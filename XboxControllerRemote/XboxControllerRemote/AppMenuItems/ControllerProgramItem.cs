@@ -5,6 +5,9 @@
     /// </summary>
     class ControllerProgramItem : ProgramItem
     {
-
+        public ControllerProgramItem(string name, string processName, string processPath, string args, string appStartedArgs)
+            : base(name, processName, processPath, args, appStartedArgs)
+        {
+        }
     }
 }

@@ -3,8 +3,8 @@
     public class QuitItem : AppMenuItem
     {
         public QuitItem()
+            : base("Quit")
         {
-            Name = "Quit";
         }
     }
 }

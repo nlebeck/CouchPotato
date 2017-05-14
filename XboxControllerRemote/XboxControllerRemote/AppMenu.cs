@@ -6,10 +6,10 @@ namespace XboxControllerRemote
     public class AppMenu : Menu
     {
         private AppMenuItem[] menuItems = {
-            new WebsiteItem() { Name = "Netflix", Url = "https://www.netflix.com" },
-            new WebsiteItem() { Name = "Hulu", Url = "https://www.hulu.com" },
-            new ControllerProgramItem() { Name = "Steam", ProcessName = "Steam", ProcessPath = "C:\\Program Files (x86)\\Steam\\steam.exe", Args = "-bigPicture", AppStartedArgs = "steam://open/bigpicture"},
-            new ProgramItem() { Name = "Skype (Classic)", ProcessName = "Skype", ProcessPath = "C:\\Program Files (x86)\\Skype\\Phone\\Skype.exe", Args = "", AppStartedArgs = "" },
+            new WebsiteItem("Netflix", "https://www.netflix.com"),
+            new WebsiteItem("Hulu", "https://www.hulu.com"),
+            new ControllerProgramItem("Steam", "Steam", "C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture", "steam://open/bigpicture"),
+            new ProgramItem("Skype (Classic)", "Skype", "C:\\Program Files (x86)\\Skype\\Phone\\Skype.exe", "", ""),
             new MouseEmulatorItem(),
             new ShutdownItem(),
             new QuitItem()
