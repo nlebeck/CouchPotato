@@ -8,8 +8,13 @@ namespace XboxControllerRemote
 {
     public class AppMenu : Menu
     {
+        private const int MENU_ITEMS_IN_COL = 4;
+
         private List<AppMenuItem> menuItems;
-        private int selectedIndex = 0;
+        private List<AppMenuItem> rightMenuItems;
+        private int selectedRow = 0;
+        private bool rightColSelected = false;
+        private int menuItemsOffset = 0;
 
         public AppMenu(MainForm form, int width, int height) : base(form, width, height)
         {
@@ -21,56 +26,137 @@ namespace XboxControllerRemote
             {
                 mainForm.ExitWithMessage("Config file not found.");
             }
-            menuItems.Add(new MouseEmulatorItem());
-            menuItems.Add(new ShutdownItem());
-            menuItems.Add(new QuitItem());
+
+            rightMenuItems = new List<AppMenuItem>();
+            rightMenuItems.Add(new MouseEmulatorItem());
+            rightMenuItems.Add(new ShutdownItem());
+            rightMenuItems.Add(new QuitItem());
         }
 
         public override void Draw(Graphics graphics)
         {
             graphics.Clear(Color.LightGray);
 
-            int menuItemHeight = height / menuItems.Count;
+            int menuItemWidth = width / 2;
+            int menuItemHeight = height / 6;
 
-            for (int i = 0; i < menuItems.Count; i++)
+            for (int i = 0; i < MENU_ITEMS_IN_COL; i++)
             {
-                int vOffset = i * height / menuItems.Count;
-                Rectangle rect = new Rectangle(0, vOffset, width, menuItemHeight);
-                Font font = new Font(MENU_FONT, 16);
-                if (i == selectedIndex)
-                {
-                    graphics.FillRectangle(Brushes.Black, rect);
-                    graphics.DrawString(menuItems[i].Name, font, Brushes.White, 0, vOffset);
-                }
-                else
-                {
-                    graphics.DrawRectangle(Pens.Black, rect);
-                    graphics.DrawString(menuItems[i].Name, font, Brushes.Black, 0, vOffset);
-                }
+                int vOffset = (i + 1) * height / 6 - menuItemHeight / 4;
+                bool selected = (i == selectedRow && !rightColSelected);
+                DrawMenuItem(graphics, menuItems[i + menuItemsOffset], 0, vOffset, menuItemWidth, menuItemHeight, selected);
+            }
+
+            for (int i = 0; i < rightMenuItems.Count; i++)
+            {
+                int vOffset = (i + 1) * height / 6 - menuItemHeight / 4;
+                bool selected = (i == selectedRow && rightColSelected);
+                DrawMenuItem(graphics, rightMenuItems[i], width / 2, vOffset, menuItemWidth, menuItemHeight, selected);
+            }
+
+            if (menuItemsOffset > 0)
+            {
+                float p1x = width / 4;
+                float p1y = height / 36;
+                float p2x = 3 * width / 16;
+                float p2y = 3 * height / 36;
+                float p3x = 5 * width / 16;
+                float p3y = 3 * height / 36;
+
+                DrawTriangle(graphics, p1x, p1y, p2x, p2y, p3x, p3y);
+            }
+
+            if (menuItemsOffset + MENU_ITEMS_IN_COL < menuItems.Count)
+            {
+                float p1x = width / 4;
+                float p1y = height - 4 * height / 36;
+                float p2x = 3 * width / 16;
+                float p2y = height - 6 * height / 36;
+                float p3x = 5 * width / 16;
+                float p3y = height - 6 * height / 36;
+
+                DrawTriangle(graphics, p1x, p1y, p2x, p2y, p3x, p3y);
+            }
+        }
+
+        private void DrawTriangle(Graphics graphics, float p1x, float p1y, float p2x, float p2y, float p3x, float p3y)
+        {
+            graphics.DrawLine(Pens.Black, p1x, p1y, p2x, p2y);
+            graphics.DrawLine(Pens.Black, p2x, p2y, p3x, p3y);
+            graphics.DrawLine(Pens.Black, p3x, p3y, p1x, p1y);
+        }
+
+        private void DrawMenuItem(Graphics graphics, AppMenuItem menuItem, int x, int y, int width, int height, bool selected)
+        {
+            Rectangle rect = new Rectangle(x, y, width, height);
+            Font font = new Font(MENU_FONT, 16);
+            if (selected)
+            {
+                graphics.FillRectangle(Brushes.Black, rect);
+                graphics.DrawString(menuItem.Name, font, Brushes.White, x, y);
+            }
+            else
+            {
+                graphics.DrawRectangle(Pens.Black, rect);
+                graphics.DrawString(menuItem.Name, font, Brushes.Black, x, y);
             }
         }
 
         public override void OnDownButton()
         {
-            selectedIndex++;
-            if (selectedIndex >= menuItems.Count)
+            if (selectedRow < MENU_ITEMS_IN_COL - 1)
             {
-                selectedIndex = 0;
+                selectedRow++;
+            }
+            else if (!rightColSelected && menuItemsOffset < menuItems.Count - MENU_ITEMS_IN_COL)
+            {
+                menuItemsOffset++;
             }
         }
 
         public override void OnUpButton()
         {
-            selectedIndex--;
-            if (selectedIndex < 0)
+            if (selectedRow > 0)
             {
-                selectedIndex = menuItems.Count - 1;
+                selectedRow--;
+            }
+            else if (!rightColSelected && menuItemsOffset > 0)
+            {
+                menuItemsOffset--;
+            }
+        }
+
+        public override void OnRightButton()
+        {
+            if (!rightColSelected)
+            {
+                rightColSelected = true;
+                if (selectedRow >= rightMenuItems.Count)
+                {
+                    selectedRow = rightMenuItems.Count - 1;
+                }
+            }
+        }
+
+        public override void OnLeftButton()
+        {
+            if (rightColSelected)
+            {
+                rightColSelected = false;
             }
         }
 
         public override void OnAButton()
         {
-            AppMenuItem selectedItem = menuItems[selectedIndex];
+            AppMenuItem selectedItem = null;
+            if (rightColSelected)
+            {
+                selectedItem = rightMenuItems[selectedRow];
+            }
+            else
+            {
+                selectedItem = menuItems[selectedRow + menuItemsOffset];
+            }
             mainForm.StartApp(selectedItem);
         }
     }
