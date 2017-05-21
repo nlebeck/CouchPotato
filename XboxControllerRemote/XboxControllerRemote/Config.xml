@@ -9,6 +9,10 @@
       <name>Hulu</name>
       <url>https://www.hulu.com</url>
     </website>
+    <website>
+      <name>Amazon Video</name>
+      <url>https://www.amazon.com/video</url>
+    </website>
     <controllerProgram>
       <name>Steam</name>
       <processName>Steam</processName>
