@@ -10,17 +10,17 @@ namespace XboxControllerRemote
     {
         private const int MENU_ITEMS_IN_COL = 4;
 
-        private List<AppMenuItem> menuItems;
+        private List<AppMenuItem> leftMenuItems;
         private List<AppMenuItem> rightMenuItems;
         private int selectedRow = 0;
         private bool rightColSelected = false;
-        private int menuItemsOffset = 0;
+        private int leftMenuOffset = 0;
 
         public AppMenu(MainForm form, int width, int height) : base(form, width, height)
         {
             try
             {
-                menuItems = ConfigFileParser.LoadMenuItems();
+                leftMenuItems = ConfigFileParser.LoadMenuItems();
             }
             catch (System.IO.FileNotFoundException)
             {
@@ -44,7 +44,7 @@ namespace XboxControllerRemote
             {
                 int vOffset = (i + 1) * height / 6 - menuItemHeight / 4;
                 bool selected = (i == selectedRow && !rightColSelected);
-                DrawMenuItem(graphics, menuItems[i + menuItemsOffset], 0, vOffset, menuItemWidth, menuItemHeight, selected);
+                DrawMenuItem(graphics, leftMenuItems[i + leftMenuOffset], 0, vOffset, menuItemWidth, menuItemHeight, selected);
             }
 
             for (int i = 0; i < rightMenuItems.Count; i++)
@@ -54,7 +54,7 @@ namespace XboxControllerRemote
                 DrawMenuItem(graphics, rightMenuItems[i], width / 2, vOffset, menuItemWidth, menuItemHeight, selected);
             }
 
-            if (menuItemsOffset > 0)
+            if (leftMenuOffset > 0)
             {
                 float p1x = width / 4;
                 float p1y = height / 36;
@@ -66,7 +66,7 @@ namespace XboxControllerRemote
                 DrawTriangle(graphics, p1x, p1y, p2x, p2y, p3x, p3y);
             }
 
-            if (menuItemsOffset + MENU_ITEMS_IN_COL < menuItems.Count)
+            if (leftMenuOffset + MENU_ITEMS_IN_COL < leftMenuItems.Count)
             {
                 float p1x = width / 4;
                 float p1y = height - 4 * height / 36;
@@ -117,9 +117,9 @@ namespace XboxControllerRemote
                 {
                     selectedRow++;
                 }
-                else if (menuItemsOffset < menuItems.Count - MENU_ITEMS_IN_COL)
+                else if (leftMenuOffset < leftMenuItems.Count - MENU_ITEMS_IN_COL)
                 {
-                    menuItemsOffset++;
+                    leftMenuOffset++;
                 }
             }
         }
@@ -130,9 +130,9 @@ namespace XboxControllerRemote
             {
                 selectedRow--;
             }
-            else if (!rightColSelected && menuItemsOffset > 0)
+            else if (!rightColSelected && leftMenuOffset > 0)
             {
-                menuItemsOffset--;
+                leftMenuOffset--;
             }
         }
 
@@ -165,7 +165,7 @@ namespace XboxControllerRemote
             }
             else
             {
-                selectedItem = menuItems[selectedRow + menuItemsOffset];
+                selectedItem = leftMenuItems[selectedRow + leftMenuOffset];
             }
             mainForm.StartApp(selectedItem);
         }
