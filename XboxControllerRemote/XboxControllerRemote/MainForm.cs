@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XInputWrapper;
 using XboxControllerRemote.AppMenuItems;
+using System.Media;
 
 namespace XboxControllerRemote
 {
@@ -164,6 +165,7 @@ namespace XboxControllerRemote
             if (speechModeEnabled)
             {
                 speechModeOn = true;
+                SystemSounds.Beep.Play();
             }
         }
 
@@ -174,6 +176,7 @@ namespace XboxControllerRemote
                 speechModeOn = false;
                 recognizingSpeech = false;
                 speechEngine.RecognizeAsyncCancel();
+                SystemSounds.Beep.Play();
             }
         }
 
