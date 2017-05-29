@@ -15,8 +15,6 @@ namespace XboxControllerRemote
 {
     public partial class MainForm : Form
     {
-        private const string BROWSER_PROCESS_PATH = "IExplore.exe";
-
         private const int BUTTON_PRESS_SLEEP_MS = 50;
 
         private const int HRES = 1920;
@@ -49,12 +47,13 @@ namespace XboxControllerRemote
         private Menu currentMenu;
         private State currentState;
 
+        private string browserProcessPath;
+        private bool exiting = false;
+
         private SpeechRecognitionEngine speechEngine = null;
         private bool speechModeEnabled = true;
         private bool speechModeOn = false;
         private bool recognizingSpeech = false;
-
-        private bool exiting = false;
 
         public MainForm()
         {
@@ -94,6 +93,8 @@ namespace XboxControllerRemote
             timer = new System.Timers.Timer(POLLING_INTERVALS_MS[currentState]);
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
             timer.Start();
+
+            browserProcessPath = ConfigFileParser.LoadBrowserPath();
         }
 
         private void OnSpeechRecognized(object sender, SpeechRecognizedEventArgs e)
@@ -195,7 +196,7 @@ namespace XboxControllerRemote
             if (menuItem is WebsiteItem)
             {
                 WebsiteItem websiteItem = (WebsiteItem)menuItem;
-                appProcess = Process.Start(BROWSER_PROCESS_PATH, websiteItem.Url);
+                appProcess = Process.Start(browserProcessPath, websiteItem.Url);
                 SwitchToState(State.App);
                 ChangeMenu(typeof(KeyboardMenu));
             }

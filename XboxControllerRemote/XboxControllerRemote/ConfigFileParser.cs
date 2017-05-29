@@ -6,6 +6,15 @@ namespace XboxControllerRemote
 {
     public static class ConfigFileParser
     {
+        public static string LoadBrowserPath()
+        {
+            XmlReader reader = XmlReader.Create("Config.xml");
+            reader.ReadToNextSibling("configuration");
+            reader.ReadToDescendant("options");
+            reader.ReadToDescendant("browser");
+            reader.ReadToDescendant("path");
+            return reader.ReadElementContentAsString();
+        }
 
         public static List<AppMenuItem> LoadMenuItems()
         {

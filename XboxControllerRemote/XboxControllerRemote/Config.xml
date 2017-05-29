@@ -29,5 +29,8 @@
     </program>
   </menuItems>
   <options>
+    <browser>
+      <path>IExplore.exe</path>
+    </browser>
   </options>
 </configuration>
