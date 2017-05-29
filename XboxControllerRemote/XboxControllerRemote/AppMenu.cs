@@ -104,13 +104,23 @@ namespace XboxControllerRemote
 
         public override void OnDownButton()
         {
-            if (selectedRow < MENU_ITEMS_IN_COL - 1)
+            if (rightColSelected)
             {
-                selectedRow++;
+                if (selectedRow < rightMenuItems.Count - 1)
+                {
+                    selectedRow++;
+                }
             }
-            else if (!rightColSelected && menuItemsOffset < menuItems.Count - MENU_ITEMS_IN_COL)
+            else
             {
-                menuItemsOffset++;
+                if (selectedRow < MENU_ITEMS_IN_COL - 1)
+                {
+                    selectedRow++;
+                }
+                else if (menuItemsOffset < menuItems.Count - MENU_ITEMS_IN_COL)
+                {
+                    menuItemsOffset++;
+                }
             }
         }
 
