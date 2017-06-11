@@ -30,6 +30,7 @@
   </menuItems>
   <options>
     <browser>
+      <processName>IExplore</processName>
       <path>IExplore.exe</path>
     </browser>
   </options>

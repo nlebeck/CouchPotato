@@ -35,7 +35,7 @@ namespace XboxControllerRemote
 
         public override void Draw(Graphics graphics)
         {
-            graphics.Clear(Color.LightGray);
+            graphics.Clear(BACKGROUND_COLOR);
 
             int menuItemWidth = width / 2;
             int menuItemHeight = height / 6;

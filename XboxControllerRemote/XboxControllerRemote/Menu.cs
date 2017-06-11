@@ -10,6 +10,7 @@ namespace XboxControllerRemote
     public abstract class Menu
     {
         protected const string MENU_FONT = "Arial";
+        protected static Color BACKGROUND_COLOR = Color.LightGray;
 
         protected MainForm mainForm;
         protected int width;

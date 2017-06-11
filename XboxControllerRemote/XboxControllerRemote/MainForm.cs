@@ -25,6 +25,8 @@ namespace XboxControllerRemote
         private const double MOUSE_WHEEL_MULTIPLIER = 0.125;
         private const double MOUSE_MULTIPLIER = 12.5;
 
+        public string CurrentMessage { get; set; }
+
         private static readonly Dictionary<State, int> POLLING_INTERVALS_MS = new Dictionary<State, int>() {
             { State.Menu, 10 }, { State.App, 10 }, { State.Disabled, 1000 }, { State.MouseEmulator, 10 }
         };
@@ -48,6 +50,7 @@ namespace XboxControllerRemote
         private State currentState;
 
         private string browserProcessPath;
+        private string browserProcessName;
         private bool exiting = false;
 
         private SpeechRecognitionEngine speechEngine = null;
@@ -94,6 +97,7 @@ namespace XboxControllerRemote
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
             timer.Start();
 
+            browserProcessName = ConfigFileParser.LoadBrowserProcessName();
             browserProcessPath = ConfigFileParser.LoadBrowserPath();
         }
 
@@ -195,6 +199,13 @@ namespace XboxControllerRemote
         {
             if (menuItem is WebsiteItem)
             {
+                Process[] processes = Process.GetProcessesByName(browserProcessName);
+                if (processes.Length > 0)
+                {
+                    DisplayMessage("Error: a browser window is open. Please close all open browser windows\r\nbefore launching a website through this program.");
+                    return;
+                }
+
                 WebsiteItem websiteItem = (WebsiteItem)menuItem;
                 appProcess = Process.Start(browserProcessPath, websiteItem.Url);
                 SwitchToState(State.App);
@@ -292,6 +303,12 @@ namespace XboxControllerRemote
             }
             MessageBox.Show("Exiting program: " + message);
             Application.Exit();
+        }
+
+        public void DisplayMessage(string message)
+        {
+            CurrentMessage = message;
+            ChangeMenu(typeof(MessageMenu));
         }
 
         public void DetectInput()

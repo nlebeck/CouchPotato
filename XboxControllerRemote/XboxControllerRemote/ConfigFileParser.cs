@@ -16,6 +16,16 @@ namespace XboxControllerRemote
             return reader.ReadElementContentAsString();
         }
 
+        public static string LoadBrowserProcessName()
+        {
+            XmlReader reader = XmlReader.Create("Config.xml");
+            reader.ReadToNextSibling("configuration");
+            reader.ReadToDescendant("options");
+            reader.ReadToDescendant("browser");
+            reader.ReadToDescendant("processName");
+            return reader.ReadElementContentAsString();
+        }
+
         public static List<AppMenuItem> LoadMenuItems()
         {
             List<AppMenuItem> menuItems = new List<AppMenuItem>();
