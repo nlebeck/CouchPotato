@@ -65,7 +65,7 @@ namespace XboxControllerRemote
             Width = (int)(HRES * KEYBOARD_WIDTH_SCALE);
             Height = (int)(Width / KEYBOARD_ASPECT_RATIO);
 
-            currentMenu = new AppMenu(this, Width, Height);
+            currentMenu = new AppMenu(this, ClientRectangle.Width, ClientRectangle.Height);
             currentState = State.Menu;
 
             buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Width, Height));
@@ -260,7 +260,7 @@ namespace XboxControllerRemote
 
         public void ChangeMenu(Type menu)
         {
-            currentMenu = (Menu)Activator.CreateInstance(menu, this, Width, Height);
+            currentMenu = (Menu)Activator.CreateInstance(menu, this, ClientRectangle.Width, ClientRectangle.Height);
         }
 
         public void SwitchToState(State state)

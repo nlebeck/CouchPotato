@@ -42,14 +42,14 @@ namespace XboxControllerRemote
 
             for (int i = 0; i < MENU_ITEMS_IN_COL; i++)
             {
-                int vOffset = (i + 1) * height / 6 - menuItemHeight / 4;
+                int vOffset = (i + 1) * height / 6;
                 bool selected = (i == selectedRow && !rightColSelected);
                 DrawMenuItem(graphics, leftMenuItems[i + leftMenuOffset], 0, vOffset, menuItemWidth, menuItemHeight, selected);
             }
 
             for (int i = 0; i < rightMenuItems.Count; i++)
             {
-                int vOffset = (i + 1) * height / 6 - menuItemHeight / 4;
+                int vOffset = (i + 1) * height / 6;
                 bool selected = (i == selectedRow && rightColSelected);
                 DrawMenuItem(graphics, rightMenuItems[i], width / 2, vOffset, menuItemWidth, menuItemHeight, selected);
             }
@@ -59,9 +59,9 @@ namespace XboxControllerRemote
                 float p1x = width / 4;
                 float p1y = height / 36;
                 float p2x = 3 * width / 16;
-                float p2y = 3 * height / 36;
+                float p2y = 4 * height / 36;
                 float p3x = 5 * width / 16;
-                float p3y = 3 * height / 36;
+                float p3y = 4 * height / 36;
 
                 DrawTriangle(graphics, p1x, p1y, p2x, p2y, p3x, p3y);
             }
@@ -69,11 +69,11 @@ namespace XboxControllerRemote
             if (leftMenuOffset + MENU_ITEMS_IN_COL < leftMenuItems.Count)
             {
                 float p1x = width / 4;
-                float p1y = height - 4 * height / 36;
+                float p1y = height - height / 36;
                 float p2x = 3 * width / 16;
-                float p2y = height - 6 * height / 36;
+                float p2y = height - 4 * height / 36;
                 float p3x = 5 * width / 16;
-                float p3y = height - 6 * height / 36;
+                float p3y = height - 4 * height / 36;
 
                 DrawTriangle(graphics, p1x, p1y, p2x, p2y, p3x, p3y);
             }
