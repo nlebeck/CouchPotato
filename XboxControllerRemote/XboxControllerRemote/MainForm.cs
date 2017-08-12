@@ -202,12 +202,20 @@ namespace XboxControllerRemote
                 Process[] processes = Process.GetProcessesByName(browserProcessName);
                 if (processes.Length > 0)
                 {
-                    DisplayMessage("Error: a browser window is open. Please close all open browser windows\r\nbefore launching a website through this program.");
+                    DisplayMessage("Error: a browser window is open. Please close all open browser windows\nbefore launching a website through this program.");
                     return;
                 }
 
                 WebsiteItem websiteItem = (WebsiteItem)menuItem;
-                appProcess = Process.Start(browserProcessPath, websiteItem.Url);
+                try
+                {
+                    appProcess = Process.Start(browserProcessPath, websiteItem.Url);
+                }
+                catch
+                {
+                    DisplayMessage("Error launching website. Check to make sure the browser path is set\ncorrectly in the config file.");
+                    return;
+                }
                 SwitchToState(State.App);
                 ChangeMenu(typeof(KeyboardMenu));
             }
@@ -220,18 +228,36 @@ namespace XboxControllerRemote
                 {
                     if (programItem.AppStartedArgs == null)
                     {
-                        throw new InvalidOperationException(string.Format("Process {0} is already running.", programItem.ProcessName));
+                        DisplayMessage("Error: This app is already running, and the config file entry\nfor the app does not have an appStartedArgs element.");
+                        return;
                     }
                     else
                     {
                         appProcess = processes[0];
-                        Process.Start(programItem.ProcessPath, programItem.AppStartedArgs);
+                        try
+                        {
+                            Process.Start(programItem.ProcessPath, programItem.AppStartedArgs);
+                        }
+                        catch
+                        {
+                            DisplayMessage("Error starting app. Check to make sure the config file entry\nfor this app has the correct path.");
+                            return;
+                        }
                     }
                 }
                 else
                 {
-                    appProcess = Process.Start(programItem.ProcessPath, programItem.Args);
+                    try
+                    {
+                        appProcess = Process.Start(programItem.ProcessPath, programItem.Args);
+                    }
+                    catch
+                    {
+                        DisplayMessage("Error starting app. Check to make sure the config file entry\nfor this app has the correct path.");
+                        return;
+                    }
                 }
+
 
                 if (programItem is ControllerProgramItem)
                 {
