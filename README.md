@@ -42,7 +42,7 @@ you to start any program you want or do anything else you can do with just a mou
 * Left thumbstick: move mouse
 * A: left click
 * B: right click
-* Back: return to the main menu
+* Y: return to the main menu
 
 ## Streaming services instructions and quirks
 
