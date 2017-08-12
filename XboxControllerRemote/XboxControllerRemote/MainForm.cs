@@ -311,6 +311,19 @@ namespace XboxControllerRemote
             ChangeMenu(typeof(MessageMenu));
         }
 
+        // We don't switch to a MessageMenu because we want the user to be able to resume where
+        // she left off once the controller is plugged back in
+        public void HandleUnpluggedController()
+        {
+            Font font = new Font(XboxControllerRemote.Menu.MENU_FONT, XboxControllerRemote.Menu.MENU_FONT_SIZE);
+            buffer.Graphics.Clear(XboxControllerRemote.Menu.BACKGROUND_COLOR);
+            buffer.Graphics.DrawString("No XInput-compatible controller plugged in.", font, Brushes.Black, new Point(100, 100));
+            buffer.Graphics.DrawString("Plug in controller to continue", font, Brushes.Black, new Point(100, Height - 200));
+            Graphics graphics = CreateGraphics();
+            buffer.Render(graphics);
+            graphics.Dispose();
+        }
+
         public void DetectInput()
         {
             if (exiting)
@@ -322,16 +335,17 @@ namespace XboxControllerRemote
             uint ret = XInputState.XInputGetStateWrapper(0, ref state);
             if (ret != XInputConstants.RET_ERROR_SUCCESS)
             {
-                ExitWithMessage("No XInput-compatible controller plugged in");
+                HandleUnpluggedController();
+                return;
             }
+
+            Graphics formGraphics = CreateGraphics();
+            currentMenu.Draw(buffer.Graphics);
+            buffer.Render(formGraphics);
+            formGraphics.Dispose();
 
             if (currentState == State.Menu)
             {
-                Graphics formGraphics = CreateGraphics();
-                currentMenu.Draw(buffer.Graphics);
-                buffer.Render(formGraphics);
-                formGraphics.Dispose();
-
                 int offsetX = 0;
                 int offsetY = 0;
                 GetMovementOffsets(state.Gamepad.sThumbRX, state.Gamepad.sThumbRY, out offsetX, out offsetY);
