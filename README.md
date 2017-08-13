@@ -95,7 +95,9 @@ Otherwise, you'll have to pull out a keyboard and use that to enter your search 
 ## Customizing the app menu
 
 The apps and websites available in the app menu can be customized by modifying this program's
-config file. The config file is an XML file, and the `menuItems` element contains a set of child
+config file. The config file is an XML file called `Config.xml` located in the same directory as
+this program (a default config file will be generated the first time you run this program and
+whenever the config file is moved or deleted). The `menuItems` element contains a set of child
 elements describing the websites and apps in the app menu. There are three kinds of entries:
 * A `website` element describes a website that will be launched in a browser window. The Xbox
 controller will replace the mouse and keyboard while browsing this website. Child elements:
