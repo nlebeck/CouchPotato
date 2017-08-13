@@ -1,7 +1,7 @@
 # XboxControllerRemote
 
 This program lets you use an Xbox controller to control your PC, so that you can browse streaming
-video services or start apps like Skype from the comfort of your couch. The program starts by
+video services or use apps like Skype from the comfort of your couch. The program starts by
 letting you choose from a menu of websites and apps (which you can customize), and once you launch
 an app, the Xbox controller acts as a mouse to let you navigate the app. You can also go into
 "keyboard mode," letting you use an on-screen keyboard to type in things like search keywords or
@@ -44,7 +44,12 @@ you to start any program you want or do anything else you can do with just a mou
 * B: right click
 * Y: return to the main menu
 
-## Streaming services instructions and quirks
+### Menu controls
+
+* D-Pad: navigate menu
+* A: select menu item
+
+## Streaming website instructions and quirks
 
 This section has instructions and tips on navigating specific video streaming websites. Generally,
 you want to think of this program as letting you use the mouse (through the left thumbstick and A
@@ -63,10 +68,8 @@ in your search terms.
 
 ### Hulu
 
-Hulu also works well with this program. The controls are similar to Amazon Video: when watching a
-video, press A to pause/unpause and use the D-Pad left/right buttons to track forwards and
-backwards; to browse, use the left thumbstick and A button to control the mouse; to search, click
-the cursor inside the search box and switch to keyboard mode to type in search terms.
+Hulu also works well with this program. The controls are virtually identical to the Amazon Video
+controls described above.
 
 ### Netflix
 
@@ -89,7 +92,42 @@ does not work with Netflix. If you have a microphone, you can use the experiment
 recognition feature to "type" letters into the search box by saying the NATO phonetic alphabet.
 Otherwise, you'll have to pull out a keyboard and use that to enter your search terms.
 
-## Notes
+## Customizing the app menu
+
+The apps and websites available in the app menu can be customized by modifying this program's
+config file. The config file is an XML file, and the `menuItems` element contains a set of child
+elements describing the websites and apps in the app menu. There are three kinds of entries:
+* A `website` element describes a website that will be launched in a browser window. The Xbox
+controller will replace the mouse and keyboard while browsing this website. Required child
+elements:
+    * `name`: The name that will be shown for this entry.
+	* `url`: The URL of the website.
+* A `program` element describes a mouse-and-keyboard app. When launched with this program, the Xbox
+controller will replace the mouse and keyboard, just like with a website. Required child elements:
+    * `name`: The name that will be shown for this entry.
+	* `processName`: The process name of the program.
+	* `processPath`: The path to the EXE file used to launch the program.
+	* `args`: Any command-line arguments to be passed to the program when launching it. An empty
+	element is fine.
+Optional child elements:
+	* `appStartedArgs`: Any command-line arguments to be passed to the program when a process of
+	that program is already running. If this element is missing, you will not be able to launch
+	the program when a process of it is already running. An empty element is fine.
+* A `controllerProgram` element describes an app that natively supports an Xbox controller. This
+program will ignore the Xbox controller input while the controller-enabled app is running.
+
+## Speech recognition mode
+
+For websites like Netflix that don't work with keyboard mode, this program has a speech recognition
+mode that uses Windows Speech Recognition to let you enter characters with your voice. To activate
+speech recognition mode, hold down the X button. While the X button is held down, to enter a
+letter, say the corresponding NATO Phonetic Alphabet
+(https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) code word. To enter a numerical digit, just
+say the digit's name, and to enter a space or backspace, say "space" or "backspace." Speech
+recognition mode will only work if you have a microphone plugged into your computer, and it might
+not work perfectly due to the inherent noise and error involved in speech recognition.
+
+## Programming notes
 
 * I use `mouse_event()` rather than `SendInput()` to spoof mouse input because
 mouse click events sent with `SendInput()` were not being applied when another
@@ -98,8 +136,12 @@ sure why it works and `SendInput()` doesn't. It's possible that there is a
 UIPI privilege issue with `SendInput()`, but I would think that any such issue
 would apply to `mouse_event()` as well.
 
-## Helpful resources that I used for this project
+### Helpful resources that I used
 
-* Microsoft's XInput tutorial: https://msdn.microsoft.com/en-us/library/windows/desktop/ee417001(v=vs.85).aspx
-* This discussion gave me the idea of using `mouse_event()` to simulate button clicks, although I had to write a C++/CLI wrapper for it since I couldn't get a DllImport to work as shown: https://www.gamedev.net/topic/321029-how-to-simulate-a-mouse-click-in-c/
-* Shutting down the computer from inside of a C# program: http://stackoverflow.com/questions/102567/how-to-shut-down-the-computer-from-c-sharp
+* Microsoft's XInput tutorial:
+https://msdn.microsoft.com/en-us/library/windows/desktop/ee417001(v=vs.85).aspx
+* This discussion gave me the idea of using `mouse_event()` to simulate button clicks, although I
+had to write a C++/CLI wrapper for it since I couldn't get a DllImport to work as shown:
+https://www.gamedev.net/topic/321029-how-to-simulate-a-mouse-click-in-c/
+* Shutting down the computer from inside of a C# program:
+http://stackoverflow.com/questions/102567/how-to-shut-down-the-computer-from-c-sharp
