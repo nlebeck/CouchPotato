@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using XboxControllerRemote.AppMenuItems;
 
@@ -6,9 +7,24 @@ namespace XboxControllerRemote
 {
     public static class ConfigFileParser
     {
+        private static XmlReader ReadConfigFile()
+        {
+            XmlReader reader = null;
+            try
+            {
+                reader = XmlReader.Create("Config.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                WriteDefaultConfigFile("Config.xml");
+                reader = XmlReader.Create("Config.xml");
+            }
+            return reader;
+        }
+
         public static string LoadBrowserPath()
         {
-            XmlReader reader = XmlReader.Create("Config.xml");
+            XmlReader reader = ReadConfigFile();
             reader.ReadToNextSibling("configuration");
             reader.ReadToDescendant("options");
             reader.ReadToDescendant("browser");
@@ -18,7 +34,7 @@ namespace XboxControllerRemote
 
         public static string LoadBrowserProcessName()
         {
-            XmlReader reader = XmlReader.Create("Config.xml");
+            XmlReader reader = ReadConfigFile();
             reader.ReadToNextSibling("configuration");
             reader.ReadToDescendant("options");
             reader.ReadToDescendant("browser");
@@ -29,7 +45,7 @@ namespace XboxControllerRemote
         public static List<AppMenuItem> LoadMenuItems()
         {
             List<AppMenuItem> menuItems = new List<AppMenuItem>();
-            XmlReader reader = XmlReader.Create("Config.xml");
+            XmlReader reader = ReadConfigFile();
             reader.ReadToNextSibling("configuration");
             reader.ReadToDescendant("menuItems");
             while (reader.Read())
@@ -127,6 +143,73 @@ namespace XboxControllerRemote
                 { "args", args },
                 { "appStartedArgs", appStartedArgs }
             };
+        }
+
+        private static void WriteDefaultConfigFile(string fileName)
+        {
+            System.Diagnostics.Debug.WriteLine("Writing default config file");
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            XmlWriter writer = XmlWriter.Create(fileName, settings);
+            writer.WriteStartElement("configuration");
+            writer.WriteStartElement("menuItems");
+            WriteWebsiteEntry(writer, "Netflix", "https://www.netflix.com");
+            WriteWebsiteEntry(writer, "Hulu", "https://www.hulu.com");
+            WriteWebsiteEntry(writer, "Amazon Video", "https://www.amazon.com/video");
+            WriteProgramEntry(writer, "Steam", "Steam", "C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture", "steam://open/bigpicture", true);
+            WriteProgramEntry(writer, "Skype (Classic)", "Skype", "C:\\Program Files (x86)\\Skype\\Phone\\Skype.exe", "", "", false);
+            writer.WriteEndElement();
+            writer.WriteStartElement("options");
+            writer.WriteStartElement("browser");
+            writer.WriteStartElement("processName");
+            writer.WriteString("IExplore");
+            writer.WriteEndElement();
+            writer.WriteStartElement("path");
+            writer.WriteString("IExplore.exe");
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.Close();
+        }
+
+        private static void WriteWebsiteEntry(XmlWriter writer, string name, string url)
+        {
+            writer.WriteStartElement("website");
+            writer.WriteStartElement("name");
+            writer.WriteString(name);
+            writer.WriteEndElement();
+            writer.WriteStartElement("url");
+            writer.WriteString(url);
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+
+        private static void WriteProgramEntry(XmlWriter writer, string name, string processName,
+            string processPath, string args, string appStartedArgs, bool controllerSupported)
+        {
+            string programElementName = controllerSupported ? "controllerProgram" : "program";
+            writer.WriteStartElement(programElementName);
+            writer.WriteStartElement("name");
+            writer.WriteString(name);
+            writer.WriteEndElement();
+            writer.WriteStartElement("processName");
+            writer.WriteString(processName);
+            writer.WriteEndElement();
+            writer.WriteStartElement("processPath");
+            writer.WriteString(processPath);
+            writer.WriteEndElement();
+            writer.WriteStartElement("args");
+            writer.WriteString(args);
+            writer.WriteEndElement();
+
+            if (appStartedArgs != null)
+            {
+                writer.WriteStartElement("appStartedArgs");
+                writer.WriteString(appStartedArgs);
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
         }
     }
 }
