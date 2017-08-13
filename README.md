@@ -98,23 +98,22 @@ The apps and websites available in the app menu can be customized by modifying t
 config file. The config file is an XML file, and the `menuItems` element contains a set of child
 elements describing the websites and apps in the app menu. There are three kinds of entries:
 * A `website` element describes a website that will be launched in a browser window. The Xbox
-controller will replace the mouse and keyboard while browsing this website. Required child
-elements:
+controller will replace the mouse and keyboard while browsing this website. Child elements:
     * `name`: The name that will be shown for this entry.
 	* `url`: The URL of the website.
 * A `program` element describes a mouse-and-keyboard app. When launched with this program, the Xbox
-controller will replace the mouse and keyboard, just like with a website. Required child elements:
+controller will replace the mouse and keyboard, just like with a website. Child elements:
     * `name`: The name that will be shown for this entry.
 	* `processName`: The process name of the program.
 	* `processPath`: The path to the EXE file used to launch the program.
 	* `args`: Any command-line arguments to be passed to the program when launching it. An empty
 	element is fine.
-Optional child elements:
-	* `appStartedArgs`: Any command-line arguments to be passed to the program when a process of
-	that program is already running. If this element is missing, you will not be able to launch
-	the program when a process of it is already running. An empty element is fine.
+	* `appStartedArgs` (optional): Any command-line arguments to be passed to the program when a
+	process of that program is already running. If this element is missing, you will not be able
+	to launch the program when a process of it is already running. An empty element is fine.
 * A `controllerProgram` element describes an app that natively supports an Xbox controller. This
-program will ignore the Xbox controller input while the controller-enabled app is running.
+program will ignore the Xbox controller input while the controller-enabled app is running. Child
+elements: the same as for a `program` entry (see above).
 
 ## Speech recognition mode
 
