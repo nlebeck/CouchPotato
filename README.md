@@ -1,11 +1,19 @@
 # XboxControllerRemote
 
-This program lets you use an Xbox controller to control your PC, so that you can browse streaming
+This program lets you use an Xbox controller to control the mouse and keyboard of your PC, so that you can browse streaming
 video services or use apps like Skype from the comfort of your couch. The program starts by
 letting you choose from a menu of websites and apps (which you can customize), and once you launch
 an app, the Xbox controller acts as a mouse to let you navigate the app. You can also go into
 "keyboard mode," letting you use an on-screen keyboard to type in things like search keywords or
 login information.
+
+## Controls (short version)
+
+Use the D-Pad to navigate menus and press A to select menu items. Once you launch an app, use the
+left thumbstick to move the mouse, press A to left click, and press B to right click. Press Start
+to simulate pressing the Enter key, and press Back to enter the Escape key. Use the triggers to
+simulate scrolling up and down with the mouse wheel. Press Y to switch into and out of Keyboard
+Mode.
 
 ## Controls
 
@@ -26,6 +34,8 @@ you to start any program you want or do anything else you can do with just a mou
 * D-Pad: left/right/up/down arrow keys
 * Start: enter key
 * Back: escape key
+* Left trigger: mouse wheel scroll up
+* Right trigger: mouse wheel scroll down
 
 ### Keyboard mode
 
@@ -36,6 +46,8 @@ you to start any program you want or do anything else you can do with just a mou
 * Y: return to app mode
 * Start: enter key
 * Back: escape key
+* Left shoulder: switch to symbols
+* Right shoulder: switch to uppercase
 
 ### Mouse emulator mode
 
@@ -52,8 +64,8 @@ you to start any program you want or do anything else you can do with just a mou
 ## Streaming website instructions and quirks
 
 This section has instructions and tips on navigating specific video streaming websites. Generally,
-you want to think of this program as letting you use the mouse (through the left thumbstick and A
-button) as well as a subset of useful keyboard keys (through the Start, Back, and D-Pad buttons).
+you want to think of this program as letting you use the mouse (through the left thumbstick, A and B
+buttons, and triggers) as well as a subset of useful keyboard keys (through the Start, Back, and D-Pad buttons).
 If you already know how to navigate the website with the mouse and those keys, you're all set. If
 you need to type letters and numbers, you can switch to keyboard mode, which most of the websites
 support (just make sure you "click" inside of the text box before switching to keyboard mode).
@@ -62,7 +74,8 @@ support (just make sure you "click" inside of the text box before switching to k
 
 Amazon Video works great with this program. When watching a video, just press A to pause/unpause and
 use the D-Pad left and right buttons to track forwards and backwards. When browsing movies and TV
-shows, use the left thumbstick and A button to control the mouse. To search for a movie or TV show,
+shows, use the left thumbstick and A button to control the mouse. Use the triggers to scroll up and
+down. To search for a movie or TV show,
 just click the cursor inside the search box and switch to keyboard mode (with the Y button) to type
 in your search terms.
 
