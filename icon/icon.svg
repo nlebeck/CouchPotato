@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="icon.svg">
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="C:\Users\niell\Git\xbox-controller-remote\icon\icon.png"
+   inkscape:export-xdpi="30.963808"
+   inkscape:export-ydpi="30.963808">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.62"
+     inkscape:zoom="0.66"
      inkscape:cx="137.90323"
-     inkscape:cy="430.96774"
+     inkscape:cy="456.89367"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -55,31 +58,31 @@
      transform="translate(0,-87)">
     <ellipse
        id="path3699"
-       style="fill:#87002e;fill-opacity:1;stroke:#000000;stroke-width:7;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       ry="75.107529"
-       rx="96.018143"
-       cy="210.91655"
-       cx="41.135571"
-       transform="rotate(-18.993275)" />
+       style="fill:#dc0046;fill-opacity:1;stroke:#000000;stroke-width:7.35751724;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       ry="77.422127"
+       rx="102.90542"
+       cy="215.39592"
+       cx="33.464825"
+       transform="matrix(0.95030324,-0.3113258,0.34007271,0.94039914,0,0)" />
     <ellipse
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:7;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4512"
-       cx="119.48925"
-       cy="150.83905"
+       cx="115.97285"
+       cy="157.35976"
        rx="10.668683"
        ry="10.028562" />
     <ellipse
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:7;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4512-4"
-       cx="53.770157"
-       cy="212.93077"
+       cx="50.253757"
+       cy="219.45148"
        rx="10.668683"
        ry="10.028562" />
     <ellipse
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:7;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4512-4-7"
-       cx="162.59073"
-       cy="172.38979"
+       cx="159.07434"
+       cy="178.91049"
        rx="10.668683"
        ry="10.028562" />
   </g>
