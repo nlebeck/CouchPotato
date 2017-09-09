@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XboxControllerRemote", "XboxControllerRemote\XboxControllerRemote.csproj", "{BCA9391D-A06C-4613-88C5-614649AF50D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CouchPotato", "XboxControllerRemote\CouchPotato.csproj", "{BCA9391D-A06C-4613-88C5-614649AF50D5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XInputWrapper", "XInputWrapper\XInputWrapper.vcxproj", "{CE26D4D3-0484-4C08-B27C-A10B35724F7F}"
 EndProject
