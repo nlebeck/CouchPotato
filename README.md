@@ -130,6 +130,18 @@ controller will replace the mouse and keyboard, just like with a website. Child 
 program will ignore the Xbox controller input while the controller-enabled app is running. Child
 elements: the same as for a `program` entry (see above).
 
+## Changing the browser
+
+The browser used to launch websites can also be changed by modifying the config file. The `options`
+element contains a `browser` child element, which itself contains two child elements, `processName`
+and `path`. Change those two child elements to the process name and executable path, respectively,
+of your browser of choice.
+
+The default browser is Internet Explorer. Why Internet Explorer? The only browsers that support
+1080p video playback on Windows are Internet Explorer and Microsoft Edge, and I can't figure out
+how to start Edge (or any other UWP app) from inside of a C# program. Also, Internet Explorer is
+guaranteed to be present on any user's computer.
+
 ## Speech recognition mode
 
 For websites like Netflix that don't work with keyboard mode, CouchPotato has a speech recognition
