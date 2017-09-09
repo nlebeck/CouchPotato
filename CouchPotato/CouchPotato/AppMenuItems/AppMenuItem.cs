@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace XboxControllerRemote.AppMenuItems
+namespace CouchPotato.AppMenuItems
 {
     public abstract class AppMenuItem
     {

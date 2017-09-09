@@ -1,4 +1,4 @@
-﻿namespace XboxControllerRemote.AppMenuItems
+﻿namespace CouchPotato.AppMenuItems
 {
     public class MouseEmulatorItem : AppMenuItem
     {

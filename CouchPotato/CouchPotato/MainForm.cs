@@ -8,10 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using XInputWrapper;
-using XboxControllerRemote.AppMenuItems;
+using CouchPotato.AppMenuItems;
 using System.Media;
 
-namespace XboxControllerRemote
+namespace CouchPotato
 {
     public partial class MainForm : Form
     {
@@ -341,8 +341,8 @@ namespace XboxControllerRemote
         // she left off once the controller is plugged back in
         public void HandleUnpluggedController()
         {
-            Font font = new Font(XboxControllerRemote.Menu.MENU_FONT, XboxControllerRemote.Menu.MENU_FONT_SIZE);
-            buffer.Graphics.Clear(XboxControllerRemote.Menu.BACKGROUND_COLOR);
+            Font font = new Font(CouchPotato.Menu.MENU_FONT, CouchPotato.Menu.MENU_FONT_SIZE);
+            buffer.Graphics.Clear(CouchPotato.Menu.BACKGROUND_COLOR);
             buffer.Graphics.DrawString("No XInput-compatible controller plugged in.", font, Brushes.Black, new Point(100, 100));
             buffer.Graphics.DrawString("Plug in controller to continue", font, Brushes.Black, new Point(100, Height - 200));
             Graphics graphics = CreateGraphics();

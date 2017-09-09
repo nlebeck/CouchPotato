@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
-using XboxControllerRemote.AppMenuItems;
+using CouchPotato.AppMenuItems;
 
-namespace XboxControllerRemote
+namespace CouchPotato
 {
     public class AppMenu : Menu
     {

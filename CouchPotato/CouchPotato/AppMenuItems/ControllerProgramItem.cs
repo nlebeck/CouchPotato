@@ -1,4 +1,4 @@
-﻿namespace XboxControllerRemote.AppMenuItems
+﻿namespace CouchPotato.AppMenuItems
 {
     /// <summary>
     /// A program that has native controller support, so mouse/keyboard emulation is disabled.

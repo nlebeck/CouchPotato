@@ -1,4 +1,4 @@
-﻿namespace XboxControllerRemote
+﻿namespace CouchPotato
 {
     using System;
     using System.Drawing;

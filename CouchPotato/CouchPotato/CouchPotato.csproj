@@ -7,8 +7,8 @@
     <ProjectGuid>{BCA9391D-A06C-4613-88C5-614649AF50D5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XboxControllerRemote</RootNamespace>
-    <AssemblyName>XboxControllerRemote</AssemblyName>
+    <RootNamespace>CouchPotato</RootNamespace>
+    <AssemblyName>CouchPotato</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

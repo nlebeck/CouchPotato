@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using XboxControllerRemote.AppMenuItems;
+using CouchPotato.AppMenuItems;
 
-namespace XboxControllerRemote
+namespace CouchPotato
 {
     public static class ConfigFileParser
     {

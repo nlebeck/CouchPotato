@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XboxControllerRemote.Properties {
+namespace CouchPotato.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

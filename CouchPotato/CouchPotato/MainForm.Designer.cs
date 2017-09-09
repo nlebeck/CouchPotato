@@ -1,4 +1,4 @@
-﻿namespace XboxControllerRemote
+﻿namespace CouchPotato
 {
     partial class MainForm
     {
