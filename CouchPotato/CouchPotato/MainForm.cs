@@ -17,9 +17,8 @@ namespace CouchPotato
     {
         private const int BUTTON_PRESS_SLEEP_MS = 50;
 
-        private const int HRES = 1920;
-        private const double KEYBOARD_WIDTH_SCALE = 0.5;
-        private const double KEYBOARD_ASPECT_RATIO = 16.0 / 9.0;
+        private const int WIDTH = 960;
+        private const double ASPECT_RATIO = 16.0 / 9.0;
 
         private const double THUMB_MAX = 32767.0;
         private const double MOUSE_WHEEL_MULTIPLIER = 0.125;
@@ -62,8 +61,8 @@ namespace CouchPotato
         {
             InitializeComponent();
 
-            Width = (int)(HRES * KEYBOARD_WIDTH_SCALE);
-            Height = (int)(Width / KEYBOARD_ASPECT_RATIO);
+            Width = WIDTH;
+            Height = (int)(Width / ASPECT_RATIO);
 
             currentMenu = new AppMenu(this, ClientRectangle.Width, ClientRectangle.Height);
             currentState = State.Menu;
@@ -341,7 +340,7 @@ namespace CouchPotato
         // she left off once the controller is plugged back in
         public void HandleUnpluggedController()
         {
-            Font font = new Font(CouchPotato.Menu.MENU_FONT, CouchPotato.Menu.MENU_FONT_SIZE);
+            Font font = new Font(CouchPotato.Menu.MENU_FONT, CouchPotato.Menu.GetFontSize(Width));
             buffer.Graphics.Clear(CouchPotato.Menu.BACKGROUND_COLOR);
             buffer.Graphics.DrawString("No XInput-compatible controller plugged in.", font, Brushes.Black, new Point(100, 100));
             buffer.Graphics.DrawString("Plug in controller to continue", font, Brushes.Black, new Point(100, Height - 200));

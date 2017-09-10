@@ -98,15 +98,15 @@ namespace CouchPotato
 
                     Rectangle rect = new Rectangle(x, y, GetKeyWidth(), GetKeyHeight());
 
-                    int fontSize = GetKeyWidth() / 2;
+                    int keyboardFontSize = GetKeyWidth() / 2;
                     int textX = x;
                     int textY = y + GetKeyHeight() / 4;
                     if (key.Length > 1)
                     {
-                        fontSize = GetKeyWidth() / 7;
+                        keyboardFontSize = GetKeyWidth() / 7;
                         textY = y + GetKeyHeight() / 2;
                     }
-                    Font font = new Font(MENU_FONT, fontSize);
+                    Font font = new Font(MENU_FONT, keyboardFontSize);
 
                     if (col == selectedCol && row == selectedRow)
                     {

@@ -9,7 +9,7 @@
 
         public override void Draw(Graphics graphics)
         {
-            Font font = new Font(MENU_FONT, MENU_FONT_SIZE);
+            Font font = new Font(MENU_FONT, fontSize);
             graphics.Clear(BACKGROUND_COLOR);
             graphics.DrawString(mainForm.CurrentMessage, font, Brushes.Black, new Point(100, 100));
             graphics.DrawString("Press A to continue", font, Brushes.Black, new Point(100, mainForm.Height - 200));

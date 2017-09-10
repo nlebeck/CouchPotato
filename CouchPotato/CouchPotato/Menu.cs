@@ -10,18 +10,24 @@ namespace CouchPotato
     public abstract class Menu
     {
         public const string MENU_FONT = "Arial";
-        public const int MENU_FONT_SIZE = 16;
         public static Color BACKGROUND_COLOR = Color.LightGray;
 
         protected MainForm mainForm;
         protected int width;
         protected int height;
+        protected int fontSize;
 
         public Menu(MainForm form, int width, int height)
         {
             this.mainForm = form;
             this.width = width;
             this.height = height;
+            this.fontSize = GetFontSize(width);
+        }
+
+        public static int GetFontSize(int width)
+        {
+            return width / 60;
         }
 
         public abstract void Draw(Graphics graphics);

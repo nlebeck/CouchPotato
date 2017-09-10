@@ -89,7 +89,7 @@ namespace CouchPotato
         private void DrawMenuItem(Graphics graphics, AppMenuItem menuItem, int x, int y, int width, int height, bool selected)
         {
             Rectangle rect = new Rectangle(x, y, width, height);
-            Font font = new Font(MENU_FONT, MENU_FONT_SIZE);
+            Font font = new Font(MENU_FONT, fontSize);
             if (selected)
             {
                 graphics.FillRectangle(Brushes.Black, rect);
