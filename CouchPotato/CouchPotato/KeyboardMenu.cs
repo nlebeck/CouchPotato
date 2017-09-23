@@ -223,7 +223,21 @@ namespace CouchPotato
 
         public string GetSelectedKey()
         {
-            return GetCurrentKeys()[selectedRow][selectedCol];
+            string selectedKey = GetCurrentKeys()[selectedRow][selectedCol];
+            if (selectedKey == "+"
+                || selectedKey == "^"
+                || selectedKey == "%"
+                || selectedKey == "~"
+                || selectedKey == "("
+                || selectedKey == ")"
+                || selectedKey == "{"
+                || selectedKey == "}"
+                || selectedKey == "["
+                || selectedKey == "]")
+            {
+                selectedKey = string.Format("{0}{1}{2}", "{", selectedKey, "}");
+            }
+            return selectedKey;
         }
 
         public void SwitchKeySet(KeySet keySet)
