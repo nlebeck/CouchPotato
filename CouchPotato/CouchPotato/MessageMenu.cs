@@ -11,8 +11,8 @@
         {
             Font font = new Font(MENU_FONT, fontSize);
             graphics.Clear(BACKGROUND_COLOR);
-            graphics.DrawString(mainForm.CurrentMessage, font, Brushes.Black, new Point(100, 100));
-            graphics.DrawString("Press A to continue", font, Brushes.Black, new Point(100, mainForm.Height - 200));
+            graphics.DrawString(mainForm.CurrentMessage, font, Brushes.Black, new Point((int)(0.05 * width), (int)(0.2 * height)));
+            graphics.DrawString("Press A to continue", font, Brushes.Black, new Point((int)(0.05 * width), mainForm.Height - (int)(0.4 * height)));
         }
 
         public override void OnAButton()

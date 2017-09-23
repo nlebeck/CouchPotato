@@ -27,7 +27,7 @@ namespace CouchPotato
 
         public static int GetFontSize(int width)
         {
-            return width / 60;
+            return width / 30;
         }
 
         public abstract void Draw(Graphics graphics);

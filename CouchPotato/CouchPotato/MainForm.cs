@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using XInputWrapper;
 using CouchPotato.AppMenuItems;
 using System.Media;
+using System.Text;
 
 namespace CouchPotato
 {
@@ -201,7 +202,7 @@ namespace CouchPotato
                 Process[] processes = Process.GetProcessesByName(browserProcessName);
                 if (processes.Length > 0)
                 {
-                    DisplayMessage("Error: a browser window is open. Please close all open browser windows\nbefore launching a website through this program.");
+                    DisplayMessage("Error: a browser window is open. Please close all open browser windows before launching a website through this program.");
                     return;
                 }
 
@@ -212,7 +213,7 @@ namespace CouchPotato
                 }
                 catch
                 {
-                    DisplayMessage("Error launching website. Check to make sure the browser path is set\ncorrectly in the config file.");
+                    DisplayMessage("Error launching website. Check to make sure the browser path is set correctly in the config file.");
                     return;
                 }
                 SwitchToState(State.App);
@@ -227,7 +228,7 @@ namespace CouchPotato
                 {
                     if (programItem.AppStartedArgs == null)
                     {
-                        DisplayMessage("Error: This app is already running, and the config file entry\nfor the app does not have an appStartedArgs element.");
+                        DisplayMessage("Error: This app is already running, and the config file entry for the app does not have an appStartedArgs element.");
                         return;
                     }
                     else
@@ -239,7 +240,7 @@ namespace CouchPotato
                         }
                         catch
                         {
-                            DisplayMessage("Error starting app. Check to make sure the config file entry\nfor this app has the correct path.");
+                            DisplayMessage("Error starting app. Check to make sure the config file entry for this app has the correct path.");
                             return;
                         }
                     }
@@ -252,7 +253,7 @@ namespace CouchPotato
                     }
                     catch
                     {
-                        DisplayMessage("Error starting app. Check to make sure the config file entry\nfor this app has the correct path.");
+                        DisplayMessage("Error starting app. Check to make sure the config file entry for this app has the correct path.");
                         return;
                     }
                 }
@@ -332,7 +333,28 @@ namespace CouchPotato
 
         public void DisplayMessage(string message)
         {
-            CurrentMessage = message;
+            string[] split = message.Split(' ');
+            StringBuilder stringBuilder = new StringBuilder();
+            int charsOnLine = 0;
+            foreach (string word in split)
+            {
+                if (stringBuilder.Length != 0)
+                {
+                    if (charsOnLine + word.Length >= 40)
+                    {
+                        stringBuilder.Append("\n");
+                        charsOnLine = 0;
+                    }
+                    else
+                    {
+                        stringBuilder.Append(" ");
+                    }
+                }
+                stringBuilder.Append(word);
+                charsOnLine += word.Length;
+            }
+
+            CurrentMessage = stringBuilder.ToString();
             ChangeMenu(typeof(MessageMenu));
         }
 
@@ -342,8 +364,8 @@ namespace CouchPotato
         {
             Font font = new Font(CouchPotato.Menu.MENU_FONT, CouchPotato.Menu.GetFontSize(Width));
             buffer.Graphics.Clear(CouchPotato.Menu.BACKGROUND_COLOR);
-            buffer.Graphics.DrawString("No XInput-compatible controller plugged in.", font, Brushes.Black, new Point(100, 100));
-            buffer.Graphics.DrawString("Plug in controller to continue", font, Brushes.Black, new Point(100, Height - 200));
+            buffer.Graphics.DrawString("No XInput-compatible controller plugged in.", font, Brushes.Black, new Point((int)(0.05 * Width), (int)(0.2 * Height)));
+            buffer.Graphics.DrawString("Plug in controller to continue", font, Brushes.Black, new Point((int)(0.05 * Width), Height - (int)(0.4 * Height)));
             Graphics graphics = CreateGraphics();
             buffer.Render(graphics);
             graphics.Dispose();
