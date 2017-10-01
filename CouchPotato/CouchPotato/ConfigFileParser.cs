@@ -42,6 +42,15 @@ namespace CouchPotato
             return reader.ReadElementContentAsString();
         }
 
+        public static int LoadWidth()
+        {
+            XmlReader reader = ReadConfigFile();
+            reader.ReadToNextSibling("configuration");
+            reader.ReadToDescendant("options");
+            reader.ReadToDescendant("width");
+            return reader.ReadElementContentAsInt();
+        }
+
         public static List<AppMenuItem> LoadMenuItems()
         {
             List<AppMenuItem> menuItems = new List<AppMenuItem>();
@@ -167,6 +176,9 @@ namespace CouchPotato
             writer.WriteStartElement("path");
             writer.WriteString("IExplore.exe");
             writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.WriteStartElement("width");
+            writer.WriteString("960");
             writer.WriteEndElement();
             writer.WriteEndElement();
             writer.Close();

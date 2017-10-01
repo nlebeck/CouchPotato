@@ -18,7 +18,6 @@ namespace CouchPotato
     {
         private const int BUTTON_PRESS_SLEEP_MS = 50;
 
-        private const int WIDTH = 960;
         private const double ASPECT_RATIO = 16.0 / 9.0;
 
         private const double THUMB_MAX = 32767.0;
@@ -62,7 +61,7 @@ namespace CouchPotato
         {
             InitializeComponent();
 
-            Width = WIDTH;
+            Width = ConfigFileParser.LoadWidth();
             Height = (int)(Width / ASPECT_RATIO);
 
             currentMenu = new AppMenu(this, ClientRectangle.Width, ClientRectangle.Height);
