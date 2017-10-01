@@ -130,12 +130,20 @@ controller will replace the mouse and keyboard, just like with a website. Child 
 program will ignore the Xbox controller input while the controller-enabled app is running. Child
 elements: the same as for a `program` entry (see above).
 
-## Changing the browser
+## Config file options
 
-The browser used to launch websites can also be changed by modifying the config file. The `options`
-element contains a `browser` child element, which itself contains two child elements, `processName`
-and `path`. Change those two child elements to the process name and executable path, respectively,
-of your browser of choice.
+There are several settings that can be changed by editing the corresponding child element of the
+`options` element in the config file.
+
+* Web browser (`browser` element): sets the browser used to open websites. The `processName` child
+element contains the browser's process name, and the `path` child element contains the executable
+path of the browser. To change the browser used by CouchPotato, change these two child elements to
+the process name and executable path, respectively, of your browser of choice.
+
+* Screen width (`width` element): sets the width of the CouchPotato window in pixels. Change this
+number to change the window size (the height scales automatically with the width).
+
+## A note about the default browser
 
 The default browser is Internet Explorer. Why Internet Explorer? The only browsers that support
 1080p video playback on Windows are Internet Explorer and Microsoft Edge, and I can't figure out
