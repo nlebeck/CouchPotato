@@ -24,7 +24,7 @@ namespace CouchPotato
             }
             catch (System.IO.FileNotFoundException)
             {
-                mainForm.ExitWithMessage("Config file not found.");
+                mainForm.Exit("Config file not found. Something must have prevented CouchPotato from creating a new default config file.");
             }
 
             rightMenuItems = new List<AppMenuItem>();

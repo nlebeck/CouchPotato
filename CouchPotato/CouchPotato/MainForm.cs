@@ -279,7 +279,7 @@ namespace CouchPotato
             }
             else if (menuItem is QuitItem)
             {
-                Exit();
+                Exit(null);
             }
         }
 
@@ -312,21 +312,17 @@ namespace CouchPotato
             SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
         }
 
-        public void Exit()
-        {
-            exiting = true;
-            timer.Stop();
-            Application.Exit();
-        }
-
-        public void ExitWithMessage(string message)
+        public void Exit(string message)
         {
             exiting = true;
             if (timer != null)
             {
                 timer.Stop();
             }
-            MessageBox.Show("Exiting program: " + message);
+            if (message != null)
+            {
+                MessageBox.Show("Exiting program: " + message);
+            }
             Application.Exit();
         }
 
