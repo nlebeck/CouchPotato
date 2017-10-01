@@ -135,12 +135,12 @@ elements: the same as for a `program` entry (see above).
 There are several settings that can be changed by editing the corresponding child element of the
 `options` element in the config file.
 
-* Web browser (`browser` element): sets the browser used to open websites. The `processName` child
+* `browser` element: sets the browser used to open websites. The `processName` child
 element contains the browser's process name, and the `path` child element contains the executable
 path of the browser. To change the browser used by CouchPotato, change these two child elements to
 the process name and executable path, respectively, of your browser of choice.
 
-* Screen width (`width` element): sets the width of the CouchPotato window in pixels. Change this
+* `width` element: sets the width of the CouchPotato window in pixels. Change this
 number to change the window size (the height scales automatically with the width).
 
 ## A note about the default browser
