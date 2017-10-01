@@ -92,6 +92,8 @@ namespace CouchPotato
                 speechEngine.RecognizeCompleted += new EventHandler<RecognizeCompletedEventArgs>(OnRecognizeCompleted);
             }
 
+            FormClosing += FormClosingHandler;
+
             timer = new System.Timers.Timer(POLLING_INTERVALS_MS[currentState]);
             timer.Elapsed += (sender, e) => Invoke(new detectInputDelegate(DetectInput));
             timer.Start();
@@ -319,6 +321,16 @@ namespace CouchPotato
             SendKeys.Send(key);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
             SetForegroundWindow(Process.GetCurrentProcess().MainWindowHandle);
+        }
+
+        public void FormClosingHandler(object sender, FormClosingEventArgs e)
+        {
+            // Exit through the Exit() method so that it can perform its cleanup
+            if (!exiting)
+            {
+                e.Cancel = true;
+                Exit(null);
+            }
         }
 
         public void Exit(string message)
