@@ -305,7 +305,16 @@ namespace CouchPotato
 
         public void SendKeyFromKeyboardMenu(string key)
         {
-            SetForegroundWindow(appProcess.MainWindowHandle);
+            IntPtr appWindowHandle = IntPtr.Zero;
+            try
+            {
+                appWindowHandle = appProcess.MainWindowHandle;
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            SetForegroundWindow(appWindowHandle);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
             SendKeys.Send(key);
             Thread.Sleep(BUTTON_PRESS_SLEEP_MS);
