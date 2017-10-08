@@ -165,8 +165,8 @@ namespace CouchPotato
             WriteWebsiteEntry(writer, "Netflix", "https://www.netflix.com");
             WriteWebsiteEntry(writer, "Hulu", "https://www.hulu.com");
             WriteWebsiteEntry(writer, "Amazon Video", "https://www.amazon.com/video");
+            WriteWebsiteEntry(writer, "HBO Now", "https://play.hbonow.com/");
             WriteProgramEntry(writer, "Steam Big Picture", "Steam", "C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture", "steam://open/bigpicture", true);
-            WriteProgramEntry(writer, "Skype (Classic)", "Skype", "C:\\Program Files (x86)\\Skype\\Phone\\Skype.exe", "", "", false);
             writer.WriteEndElement();
             writer.WriteStartElement("options");
             writer.WriteStartElement("browser");
