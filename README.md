@@ -105,6 +105,17 @@ does not work with Netflix. If you have a microphone, you can use the experiment
 recognition feature to "type" letters into the search box by saying the NATO phonetic alphabet.
 Otherwise, you'll have to pull out a keyboard and use that to enter your search terms.
 
+## Speech recognition mode
+
+For websites like Netflix that don't work with keyboard mode, CouchPotato has a speech recognition
+mode that uses Windows Speech Recognition to let you enter characters with your voice. To activate
+speech recognition mode, hold down the X button. While the X button is held down, to enter a
+letter, say the corresponding NATO Phonetic Alphabet
+(https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) code word. To enter a numerical digit, just
+say the digit's name, and to enter a space or backspace, say "space" or "backspace." Speech
+recognition mode will only work if you have a microphone plugged into your computer, and it might
+not work perfectly due to the inherent noise and error involved in speech recognition.
+
 ## Customizing the app menu
 
 The apps and websites available in the app menu can be customized by modifying CouchPotato's
@@ -119,13 +130,19 @@ controller will replace the mouse and keyboard while browsing this website. Chil
 * A `program` element describes a mouse-and-keyboard app. When launched with CouchPotato, the Xbox
 controller will replace the mouse and keyboard, just like with a website. Child elements:
     * `name`: The name that will be shown for this entry.
-	* `processName`: The process name of the program.
+	* `processName`: The process name of the program. This name is the "friendly name" described
+    [here](https://msdn.microsoft.com/en-us/library/z3w4xdc9(v=vs.110).aspx). It sounds like the
+    "friendly name" is always the executable name without the ".exe" extension or path, but I have
+    left it as a separate parameter in case there are exceptions to that rule. If this element is
+    not set correctly, CouchPotato won't be able to tell if the program is already running when you
+    go to launch it, and you might need to exit all windows of the program in order to return to
+    the CouchPotato menu.
 	* `processPath`: The path to the EXE file used to launch the program.
 	* `args`: Any command-line arguments to be passed to the program when launching it. An empty
 	element is fine.
 	* `appStartedArgs` (optional): Any command-line arguments to be passed to the program when a
-	process of that program is already running. If this element is missing, you will not be able
-	to launch the program when a process of it is already running. An empty element is fine.
+	process of that program is already running. An empty element is fine. If this element is
+    missing, you will not be able to launch the program when a process of it is already running.
 * A `controllerProgram` element describes an app that natively supports an Xbox controller. This
 program will ignore the Xbox controller input while the controller-enabled app is running. Child
 elements: the same as for a `program` entry (see above).
@@ -149,17 +166,6 @@ The default browser is Internet Explorer. Why Internet Explorer? The only browse
 1080p video playback on Windows are Internet Explorer and Microsoft Edge, and I can't figure out
 how to start Edge (or any other UWP app) from inside of a C# program. Also, Internet Explorer is
 guaranteed to be present on any user's computer.
-
-## Speech recognition mode
-
-For websites like Netflix that don't work with keyboard mode, CouchPotato has a speech recognition
-mode that uses Windows Speech Recognition to let you enter characters with your voice. To activate
-speech recognition mode, hold down the X button. While the X button is held down, to enter a
-letter, say the corresponding NATO Phonetic Alphabet
-(https://en.wikipedia.org/wiki/NATO_phonetic_alphabet) code word. To enter a numerical digit, just
-say the digit's name, and to enter a space or backspace, say "space" or "backspace." Speech
-recognition mode will only work if you have a microphone plugged into your computer, and it might
-not work perfectly due to the inherent noise and error involved in speech recognition.
 
 ## Programming notes
 
