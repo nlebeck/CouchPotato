@@ -150,7 +150,9 @@ elements: the same as for a `program` entry (see above).
 ## Config file options
 
 There are several settings that can be changed by editing the corresponding child element of the
-`options` element in the config file.
+`options` element in the config file. (As mentioned above, the config file is an XML file called
+`Config.xml` located in the same directory as the CouchPotato executable, and a default config file
+will be generated for you if one is not there already.)
 
 * `browser` element: sets the browser used to open websites. The `processName` child
 element contains the browser's process name, and the `path` child element contains the executable
