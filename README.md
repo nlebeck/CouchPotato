@@ -155,7 +155,9 @@ There are several settings that can be changed by editing the corresponding chil
 * `browser` element: sets the browser used to open websites. The `processName` child
 element contains the browser's process name, and the `path` child element contains the executable
 path of the browser. To change the browser used by CouchPotato, change these two child elements to
-the process name and executable path, respectively, of your browser of choice.
+the process name and executable path, respectively, of your browser of choice. See the description
+of the `processName` element in the section "Customizing the app menu" for more information on how
+to set that parameter.
 
 * `width` element: sets the width of the CouchPotato window in pixels. Change this
 number to change the window size (the height scales automatically with the width).
