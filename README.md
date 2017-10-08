@@ -1,11 +1,13 @@
 # CouchPotato
 
-This program lets you use an Xbox controller to control the mouse and keyboard of your PC, so that you can browse streaming
-video services or use apps like Skype from the comfort of your couch. CouchPotato starts by
+CouchPotato lets you use an Xbox controller to control the mouse and keyboard of your PC, so that you can browse streaming
+video services or use other websites and apps from the comfort of your couch. CouchPotato starts by
 letting you choose from a menu of websites and apps (which you can customize), and once you launch
 an app, the Xbox controller acts as a mouse to let you navigate the app. You can also go into
 "keyboard mode," letting you use an on-screen keyboard to type in things like search keywords or
 login information.
+
+Download the latest version of CouchPotato [here](https://github.com/nlebeck/CouchPotato/releases).
 
 ## Controls (short version)
 
