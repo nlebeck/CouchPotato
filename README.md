@@ -92,14 +92,7 @@ Netflix is a bit more of a pain to use with CouchPotato, due to the weird way it
 input. When watching a video, you can always use the left thumbstick and A button to control the
 video player via the mouse. To pause the video with a button press, you can use the Start button,
 but only if your most recent "mouse click" was on the video player's pause/unpause button; the same
-is true for using the D-Pad left/right buttons to track forwards and backwards. Also, there is a
-glitch that causes the video to occasionally start tracking from an earlier time when you press
-the D-Pad, which ends up rewinding the video.
-
-When I watch videos with Netflix, I make sure to "click" the on-screen pause/unpause button when I
-first start watching a video, and thereafter only use the start button and D-pad left/right buttons
-to control the playback (it's as if I were only using the keyboard). Also, I usually pause before
-trying to track with the D-Pad, since that seems to prevent the rewinding glitch mentioned above.
+is true for using the D-Pad left/right buttons to track forwards and backwards.
 
 Browsing Netflix is also more of a pain than with the other video streaming services. For reasons
 related to details of how the Netflix web app handles keyboard input, CouchPotato's keyboard mode
