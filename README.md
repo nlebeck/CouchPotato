@@ -45,6 +45,7 @@ you to start any program you want or do anything else you can do with just a mou
 * D-Pad: move the cursor on the on-screen keyboard
 * A: press selected key
 * B: backspace key
+* X: spacebar key
 * Y: return to app mode
 * Start: enter key
 * Back: escape key

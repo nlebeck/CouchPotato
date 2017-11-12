@@ -191,6 +191,11 @@ namespace CouchPotato
             mainForm.SendKeyFromKeyboardMenu("{ENTER}");
         }
 
+        public override void OnXButton()
+        {
+            mainForm.SendKeyFromKeyboardMenu(" ");
+        }
+
         public override void OnYButton()
         {
             mainForm.SwitchToState(State.App);
