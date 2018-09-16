@@ -89,13 +89,9 @@ controls described above.
 
 ### Netflix
 
-Netflix is a bit more of a pain to use with CouchPotato, due to the weird way it handles keyboard
-input. When watching a video, you can always use the left thumbstick and A button to control the
-video player via the mouse. To pause the video with a button press, you can use the Start button,
-but only if your most recent "mouse click" was on the video player's pause/unpause button; the same
-is true for using the D-Pad left/right buttons to track forwards and backwards.
-
-Browsing Netflix is also more of a pain than with the other video streaming services. For reasons
+The Netflix video player has similar controls to Amazon Video and Hulu: press A or Start to
+pause/unpause and use the D-Pad left and right buttons to track forwards and backwards. Browsing
+Netflix is a bit more of a pain than with the other video streaming services, though. For reasons
 related to details of how the Netflix web app handles keyboard input, CouchPotato's keyboard mode
 does not work with Netflix. If you have a microphone, you can use the experimental speech
 recognition feature to "type" letters into the search box by saying the NATO phonetic alphabet.
