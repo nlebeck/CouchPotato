@@ -11,6 +11,7 @@ using XInputWrapper;
 using CouchPotato.AppMenuItems;
 using System.Media;
 using System.Text;
+using CouchPotato.ButtonMappings;
 
 namespace CouchPotato
 {
@@ -47,6 +48,7 @@ namespace CouchPotato
         private BufferedGraphics buffer;
         private Menu currentMenu;
         private State currentState;
+        private ButtonMapping currentButtonMapping = new DefaultButtonMapping();
 
         private string browserProcessPath;
         private string browserProcessName;
@@ -217,6 +219,7 @@ namespace CouchPotato
                     DisplayMessage("Error launching website. Check to make sure the browser path is set correctly in the config file.");
                     return;
                 }
+                currentButtonMapping = websiteItem.ButtonMapping;
                 SwitchToState(State.App);
                 ChangeMenu(typeof(KeyboardMenu));
             }
@@ -259,7 +262,7 @@ namespace CouchPotato
                     }
                 }
 
-
+                currentButtonMapping = new DefaultButtonMapping();
                 if (programItem is ControllerProgramItem)
                 {
                     SwitchToState(State.Disabled);
@@ -272,6 +275,7 @@ namespace CouchPotato
             }
             else if (menuItem is MouseEmulatorItem)
             {
+                currentButtonMapping = new DefaultButtonMapping();
                 SwitchToState(State.MouseEmulator);
                 ChangeMenu(typeof(AppMenu));
             }
@@ -489,27 +493,27 @@ namespace CouchPotato
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_BACK))
                 {
-                    SendKeys.Send("{ESC}");
+                    SendKeys.Send(currentButtonMapping.GetKeyForGamepadBack());
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_START))
                 {
-                    SendKeys.Send("{ENTER}");
+                    SendKeys.Send(currentButtonMapping.GetKeyForGamepadStart());
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_LEFT))
                 {
-                    SendKeys.Send("{LEFT}");
+                    SendKeys.Send(currentButtonMapping.GetKeyForGamepadDpadLeft());
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_RIGHT))
                 {
-                    SendKeys.Send("{RIGHT}");
+                    SendKeys.Send(currentButtonMapping.GetKeyForGamepadDpadRight());
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_DOWN))
                 {
-                    SendKeys.Send("{DOWN}");
+                    SendKeys.Send(currentButtonMapping.GetKeyForGamepadDpadDown());
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_DPAD_UP))
                 {
-                    SendKeys.Send("{UP}");
+                    SendKeys.Send(currentButtonMapping.GetKeyForGamepadDpadUp());
                 }
                 else if (ButtonPressed(state, prevState, XInputConstants.GAMEPAD_Y))
                 {

@@ -56,6 +56,9 @@
     <Compile Include="AppMenuItems\MouseEmulatorItem.cs" />
     <Compile Include="AppMenuItems\ShutdownItem.cs" />
     <Compile Include="AppMenuItems\WebsiteItem.cs" />
+    <Compile Include="ButtonMappings\ButtonMapping.cs" />
+    <Compile Include="ButtonMappings\CustomButtonMapping.cs" />
+    <Compile Include="ButtonMappings\DefaultButtonMapping.cs" />
     <Compile Include="ConfigFileParser.cs" />
     <Compile Include="MessageMenu.cs" />
     <Compile Include="State.cs" />

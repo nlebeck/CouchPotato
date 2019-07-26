@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using CouchPotato.AppMenuItems;
+using CouchPotato.ButtonMappings;
 
 namespace CouchPotato
 {
@@ -82,6 +83,7 @@ namespace CouchPotato
         {
             string name = null;
             string url = null;
+            ButtonMapping buttonMapping = new DefaultButtonMapping();
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element)
@@ -94,9 +96,62 @@ namespace CouchPotato
                     {
                         url = reader.ReadElementContentAsString();
                     }
+                    else if (reader.Name.Equals("buttonMapping"))
+                    {
+                        buttonMapping = ParseButtonMapping(reader.ReadSubtree());
+                    }
                 }
             }
-            return new WebsiteItem(name, url);
+            return new WebsiteItem(name, url, buttonMapping);
+        }
+
+        public static ButtonMapping ParseButtonMapping(XmlReader reader)
+        {
+            string keyForGamepadBack = null;
+            string keyForGamepadStart = null;
+            string keyForGamepadDpadLeft = null;
+            string keyForGamepadDpadRight = null;
+            string keyForGamepadDpadDown = null;
+            string keyForGamepadDpadUp = null;
+
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Element)
+                {
+                    if (reader.Name == "back")
+                    {
+                        keyForGamepadBack = reader.ReadElementContentAsString();
+                    }
+                    else if (reader.Name == "start")
+                    {
+                        keyForGamepadStart = reader.ReadElementContentAsString();
+                    }
+                    else if (reader.Name == "dpadLeft")
+                    {
+                        keyForGamepadDpadLeft = reader.ReadElementContentAsString();
+                    }
+                    else if (reader.Name == "dpadRight")
+                    {
+                        keyForGamepadDpadRight = reader.ReadElementContentAsString();
+                    }
+                    else if (reader.Name == "dpadDown")
+                    {
+                        keyForGamepadDpadDown = reader.ReadElementContentAsString();
+                    }
+                    else if (reader.Name == "dpadUp")
+                    {
+                        keyForGamepadDpadUp = reader.ReadElementContentAsString();
+                    }
+                }
+            }
+
+            return new CustomButtonMapping(
+                keyForGamepadBack,
+                keyForGamepadStart,
+                keyForGamepadDpadLeft,
+                keyForGamepadDpadRight,
+                keyForGamepadDpadDown,
+                keyForGamepadDpadUp);
         }
 
         public static ProgramItem ParseProgramItem(XmlReader reader)
