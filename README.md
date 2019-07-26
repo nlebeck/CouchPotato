@@ -89,7 +89,7 @@ in your search terms.
 
 ### Hulu
 
-Hulu fairly well with CouchPotato. The controls are virtually identical to the Amazon Video
+Hulu also works well with CouchPotato. The controls are virtually identical to the Amazon Video
 controls described above. The one difference is that you have to use the Start button rather than
 the A button to pause/unpause.
 
