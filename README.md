@@ -26,6 +26,11 @@ on-screen keyboard. There is also a "mouse emulator mode" available from the app
 this mode, the Xbox controller simply acts as a mouse, and keyboard mode is not available, allowing
 you to start any program you want or do anything else you can do with just a mouse.
 
+Some of the app mode button mappings can be overridden for a particular website with a custom
+button mapping specified in the config file (see "Customizing the app menu" below). The default
+config file uses a custom button mapping for Hulu to map the Start button to the spacebar key
+instead of the enter key, since the spacebar key is what pauses the Hulu player.
+
 ### App mode
 
 * Left thumbstick: move mouse
@@ -85,9 +90,8 @@ in your search terms.
 ### Hulu
 
 Hulu fairly well with CouchPotato. The controls are virtually identical to the Amazon Video
-controls described above. The one exception is that there's currently no way to pause the video
-aside from moving the mouse cursor over the pause button at the bottom of the screen with the
-control stick and pressing A.
+controls described above. The one difference is that you have to use the Start button rather than
+the A button to pause/unpause.
 
 ### Netflix
 
@@ -121,6 +125,11 @@ elements describing the websites and apps in the app menu. There are three kinds
 controller will replace the mouse and keyboard while browsing this website. Child elements:
     * `name`: The name that will be shown for this entry.
 	* `url`: The URL of the website.
+    * `buttonMapping` (optional): A custom button mapping for the website. It accepts the following
+    child elements: `back`, `start`, `dpadLeft`, `dpadRight`, `dpadDown`, and `dpadUp`. Each child
+    element corresponds to a button, and its contents specify the key input that is entered when
+    the button is pressed. If a child element is missing, the default button mapping for that
+    button will be used.
 * A `program` element describes a mouse-and-keyboard app. When launched with CouchPotato, the Xbox
 controller will replace the mouse and keyboard, just like with a website. Child elements:
     * `name`: The name that will be shown for this entry.
