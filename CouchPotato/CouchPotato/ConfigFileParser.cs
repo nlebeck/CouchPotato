@@ -171,10 +171,10 @@ namespace CouchPotato
             writer.WriteStartElement("options");
             writer.WriteStartElement("browser");
             writer.WriteStartElement("processName");
-            writer.WriteString("IExplore");
+            writer.WriteString("Chrome");
             writer.WriteEndElement();
             writer.WriteStartElement("path");
-            writer.WriteString("IExplore.exe");
+            writer.WriteString(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe");
             writer.WriteEndElement();
             writer.WriteEndElement();
             writer.WriteStartElement("width");
