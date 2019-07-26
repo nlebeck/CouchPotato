@@ -218,7 +218,7 @@ namespace CouchPotato
             writer.WriteStartElement("configuration");
             writer.WriteStartElement("menuItems");
             WriteWebsiteEntry(writer, "Netflix", "https://www.netflix.com");
-            WriteWebsiteEntry(writer, "Hulu", "https://www.hulu.com");
+            WriteHuluEntry(writer);
             WriteWebsiteEntry(writer, "Amazon Video", "https://www.amazon.com/video");
             WriteWebsiteEntry(writer, "HBO Now", "https://play.hbonow.com/");
             WriteProgramEntry(writer, "Steam Big Picture", "Steam", "C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture", "steam://open/bigpicture", true);
@@ -247,6 +247,27 @@ namespace CouchPotato
             writer.WriteEndElement();
             writer.WriteStartElement("url");
             writer.WriteString(url);
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+
+        /*
+         * This is totally a hack, but in retrospect, I should have just provided a default config
+         * file instead of writing it programmatically anyways.
+         */
+        private static void WriteHuluEntry(XmlWriter writer)
+        {
+            writer.WriteStartElement("website");
+            writer.WriteStartElement("name");
+            writer.WriteString("Hulu");
+            writer.WriteEndElement();
+            writer.WriteStartElement("url");
+            writer.WriteString("https://www.hulu.com");
+            writer.WriteEndElement();
+            writer.WriteStartElement("buttonMapping");
+            writer.WriteStartElement("start");
+            writer.WriteString(" ");
+            writer.WriteEndElement();
             writer.WriteEndElement();
             writer.WriteEndElement();
         }
