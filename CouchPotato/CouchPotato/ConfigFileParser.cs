@@ -220,8 +220,10 @@ namespace CouchPotato
             WriteWebsiteEntry(writer, "Netflix", "https://www.netflix.com");
             WriteHuluEntry(writer);
             WriteWebsiteEntry(writer, "Amazon Video", "https://www.amazon.com/video");
-            WriteWebsiteEntry(writer, "HBO Now", "https://play.hbonow.com/");
+            WriteWebsiteEntry(writer, "HBO Max", "https://www.hbomax.com/");
             WriteProgramEntry(writer, "Steam Big Picture", "Steam", "C:\\Program Files (x86)\\Steam\\steam.exe", "-bigPicture", "steam://open/bigpicture", true);
+            WriteWebsiteEntry(writer, "YouTube", "https://www.youtube.com");
+            WriteWebsiteEntry(writer, "Crunchyroll", "https://www.crunchyroll.com");
             writer.WriteEndElement();
             writer.WriteStartElement("options");
             writer.WriteStartElement("browser");
