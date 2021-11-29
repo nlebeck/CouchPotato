@@ -167,22 +167,6 @@ to set that parameter.
 * `width` element: sets the width of the CouchPotato window in pixels. Change this
 number to change the window size (the height scales automatically with the width).
 
-## A note about the default browser
-
-As of July 2019, the default browser is Google Chrome. Why Google Chrome? Unfortunately, it is the
-only browser that is still compatible with CouchPotato:
-
-* Internet Explorer used to be the default browser, since it is on everyone's computer and supports
-1080p video playback, but it is not supported anymore by sites like Hulu.
-
-* Microsoft Edge is a UWP app, and I can't figure out how to start UWP apps from inside of a C#
-program (I think it might actually be impossible).
-
-* Mozilla Firefox used to work with CouchPotato, but after a recent update, it looks like when you
-call `Process.Start()` on the Firefox executable, the resulting process starts other processes and
-then immediately exits. As a result, CouchPotato thinks Firefox has closed when it is still open,
-and it doesn't have the `Process` object that it needs to make keyboard mode work.
-
 ## Programming notes
 
 * I use `mouse_event()` rather than `SendInput()` to spoof mouse input because
